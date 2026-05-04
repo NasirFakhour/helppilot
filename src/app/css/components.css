@@ -30,18 +30,24 @@
 .btn svg, .btn i { width: 16px; height: 16px; }
 
 .btn-primary {
-  background: var(--color-primary);
-  color: #fff;
-  border-color: var(--color-primary);
+  background: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  background: #1d4ed8; /* Slightly darker blue */
+  border-color: #1d4ed8;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 .btn-primary:active:not(:disabled) {
   transform: translateY(0);
+}
+.btn-primary:disabled {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  opacity: 0.6;
 }
 
 .btn-secondary {
