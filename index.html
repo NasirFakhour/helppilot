@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpPilot — Gestion clients & interventions</title>
+  <meta name="description" content="HelpPilot : l'outil simple pour gérer vos clients, interventions et relances. Pensé pour les techniciens et dépanneurs informatiques." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+</head>
+<body>
+
+  <!-- App Shell -->
+  <div id="app">
+
+    <!-- Login Screen (shown when not authenticated) -->
+    <div id="login-screen" class="login-screen hidden">
+      <div id="login-page"></div>
+    </div>
+
+    <!-- App Layout (shown when authenticated) -->
+    <div id="app-layout" class="app-layout hidden">
+
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <div class="logo-icon">HP</div>
+            <span class="logo-text">HelpPilot</span>
+          </div>
+          <button id="sidebar-close" class="sidebar-close btn-icon" aria-label="Fermer le menu">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#/dashboard" class="nav-item" data-route="dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Tableau de bord</span>
+          </a>
+          <a href="#/clients" class="nav-item" data-route="clients">
+            <i data-lucide="users"></i>
+            <span>Clients</span>
+          </a>
+          <a href="#/relances" class="nav-item" data-route="relances">
+            <i data-lucide="bell-ring"></i>
+            <span>Relances</span>
+            <span id="relance-badge" class="badge badge-danger hidden">0</span>
+          </a>
+          <a href="#/settings" class="nav-item" data-route="settings">
+            <i data-lucide="settings"></i>
+            <span>Paramètres</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <div class="user-avatar">IS</div>
+            <div class="user-details">
+              <p class="user-name">InfoTech Service Avignon</p>
+              <p class="user-role">Technicien</p>
+            </div>
+          </div>
+          <button id="logout-btn" class="btn-icon" title="Déconnexion" aria-label="Se déconnecter">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Sidebar Overlay (mobile) -->
+      <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+      <!-- Main Content -->
+      <div class="main-wrapper">
+        <!-- Top Bar -->
+        <header class="topbar">
+          <button id="menu-toggle" class="btn-icon" aria-label="Ouvrir le menu">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="topbar-title" id="page-title">Tableau de bord</div>
+          <div class="topbar-actions">
+            <a href="#/interventions/new" class="btn btn-primary btn-sm" id="quick-add-btn">
+              <i data-lucide="plus"></i>
+              <span>Nouveau</span>
+            </a>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-content" id="page-content">
+          <!-- Dynamic content injected here -->
+        </main>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Modal Container -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal-container" class="modal-container"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/bundle-part1.js"></script>
+  <script src="js/bundle-part2.js"></script>
+  <script src="js/bundle-part3.js"></script>
+</body>
+</html>
