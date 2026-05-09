@@ -19,7 +19,7 @@ export function PdfGenerator({ document, client, profile }: PdfGeneratorProps) {
     // Configuration
     const title = document.type === 'facture' ? 'FACTURE' : 'DEVIS'
     const isFacture = document.type === 'facture'
-    const primaryColor = [37, 99, 235] // blue-600
+    const primaryColor: [number, number, number] = [37, 99, 235] // blue-600
 
     // --- Header ---
     doc.setFontSize(22)
