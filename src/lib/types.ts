@@ -44,3 +44,35 @@ export interface Intervention {
   // Joined relation for UI convenience
   clients?: Client | null
 }
+
+export interface Document {
+  id: string
+  user_id: string
+  client_id: string
+  intervention_id?: string | null
+  type: 'devis' | 'facture'
+  numero: string
+  date_emission: string
+  date_echeance?: string | null
+  statut: string
+  total_ht: number
+  tva_taux: number
+  total_ttc: number
+  notes?: string | null
+  created_at: string
+  updated_at: string
+  
+  // Joins
+  clients?: Client | null
+  document_lignes?: DocumentLine[]
+}
+
+export interface DocumentLine {
+  id: string
+  document_id: string
+  description: string
+  quantite: number
+  prix_unitaire_ht: number
+  total_ht: number
+  ordre: number
+}

@@ -8,7 +8,9 @@ import {
   BellRing, 
   Settings, 
   LogOut,
-  X
+  X,
+  CalendarDays,
+  FileText
 } from 'lucide-react'
 import { logout } from '@/app/(auth)/actions'
 
@@ -23,6 +25,8 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const navItems = [
     { href: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
     { href: '/clients', label: 'Clients', icon: Users },
+    { href: '/interventions', label: 'Interventions', icon: CalendarDays },
+    { href: '/documents', label: 'Devis & Factures', icon: FileText },
     { href: '/relances', label: 'Relances', icon: BellRing },
     { href: '/settings', label: 'Paramètres', icon: Settings },
   ]
