@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { DocumentForm } from '@/components/DocumentForm'
 
-export default async function NewDocumentPage({ searchParams }: { searchParams: Promise<{ type?: string }> }) {
+export default async function NewDocumentPage({ searchParams }: { searchParams: Promise<{ type?: string, client_id?: string, desc?: string, amount?: string, intervention_id?: string }> }) {
   const resolvedParams = await searchParams
   const supabase = await createClient()
   
@@ -23,6 +23,12 @@ export default async function NewDocumentPage({ searchParams }: { searchParams: 
     )
   }
 
+  // Pre-fill data if transforming from intervention
+  const defaultLine = resolvedParams.desc ? {
+    description: resolvedParams.desc,
+    prix_unitaire_ht: parseFloat(resolvedParams.amount || '0')
+  } : undefined
+
   return (
     <div className="animate-fade-in max-w-4xl mx-auto">
       <div className="mb-6">
@@ -39,7 +45,13 @@ export default async function NewDocumentPage({ searchParams }: { searchParams: 
         </div>
       </div>
 
-      <DocumentForm clients={clients} defaultType={type} />
+      <DocumentForm 
+        clients={clients} 
+        defaultType={type} 
+        defaultClientId={resolvedParams.client_id}
+        defaultInterventionId={resolvedParams.intervention_id}
+        defaultLine={defaultLine}
+      />
     </div>
   )
 }

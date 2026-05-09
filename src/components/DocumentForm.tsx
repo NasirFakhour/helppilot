@@ -15,14 +15,31 @@ interface LineItem {
   prix_unitaire_ht: number
 }
 
-export function DocumentForm({ clients, defaultType = 'devis' }: { clients: any[], defaultType?: string }) {
+export function DocumentForm({ 
+  clients, 
+  defaultType = 'devis',
+  defaultClientId = '',
+  defaultInterventionId,
+  defaultLine
+}: { 
+  clients: any[], 
+  defaultType?: string,
+  defaultClientId?: string,
+  defaultInterventionId?: string,
+  defaultLine?: { description: string, prix_unitaire_ht: number }
+}) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [type, setType] = useState(defaultType)
   
   const [lines, setLines] = useState<LineItem[]>([
-    { id: '1', description: '', quantite: 1, prix_unitaire_ht: 0 }
+    { 
+      id: '1', 
+      description: defaultLine?.description || '', 
+      quantite: 1, 
+      prix_unitaire_ht: defaultLine?.prix_unitaire_ht || 0 
+    }
   ])
   const [tvaTaux, setTvaTaux] = useState(0)
 
@@ -65,6 +82,7 @@ export function DocumentForm({ clients, defaultType = 'devis' }: { clients: any[
 
     const docData = {
       client_id: formData.get('client_id'),
+      intervention_id: formData.get('intervention_id'),
       type: type,
       date_emission: formData.get('date_emission'),
       date_echeance: formData.get('date_echeance'),
@@ -116,13 +134,17 @@ export function DocumentForm({ clients, defaultType = 'devis' }: { clients: any[
           
           <div className="form-group">
             <label className="form-label" htmlFor="client_id">Client *</label>
-            <select id="client_id" name="client_id" className="form-control" required defaultValue="">
+            <select id="client_id" name="client_id" className="form-control" required defaultValue={defaultClientId}>
               <option value="" disabled>Sélectionner un client...</option>
               {clients.map(c => (
                 <option key={c.id} value={c.id}>{fullName(c)}</option>
               ))}
             </select>
           </div>
+          
+          {defaultInterventionId && (
+            <input type="hidden" name="intervention_id" value={defaultInterventionId} />
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

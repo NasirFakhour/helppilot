@@ -86,7 +86,15 @@ export default function EditInterventionPage() {
           <h1>Modifier l'intervention</h1>
           <p>Détails de la mission #{intervention.id.slice(0, 8)}</p>
         </div>
-        <div className="page-header-actions">
+        <div className="page-header-actions flex gap-2">
+          {intervention.statut === 'terminee' && (
+            <Link 
+              href={`/documents/new?type=facture&client_id=${intervention.client_id}&intervention_id=${intervention.id}&desc=${encodeURIComponent(intervention.description)}&amount=${intervention.montant || 0}`}
+              className="btn btn-primary"
+            >
+              Générer une facture
+            </Link>
+          )}
           <button type="button" onClick={handleDelete} className="btn btn-secondary text-danger border-danger/20 hover:bg-danger-light">
             <Trash2 className="w-4 h-4" />
             <span className="hidden sm:inline ml-2">Supprimer</span>

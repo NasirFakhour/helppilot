@@ -36,6 +36,7 @@ export async function createDocument(data: any, lines: any[]) {
     .insert([{
       user_id: user.id,
       client_id: data.client_id,
+      intervention_id: data.intervention_id || null,
       type: data.type,
       numero: numero,
       date_emission: data.date_emission,
