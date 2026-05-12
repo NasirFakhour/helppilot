@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HelpPilot — Logiciel de gestion pour techniciens",
-  description: "Gérez vos clients, interventions et relances en toute simplicité.",
+  title: "TechniSuivi — Logiciel de gestion pour techniciens",
+  description: "TechniSuivi — Gérez vos clients, interventions et relances en toute simplicité.",
 };
 
 export default function RootLayout({

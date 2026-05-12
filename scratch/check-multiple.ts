@@ -7,10 +7,10 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 async function checkMultiple() {
   const accounts = [
-    { email: 'helppilot-test-user@outlook.fr', pass: 'Password123!' },
-    { email: 'test-helppilot@yopmail.com', pass: 'Password123!' },
-    { email: 'artisan.test.helppilot@gmail.com', pass: 'Password123!' },
-    { email: 'demo@helppilot.fr', pass: 'Password123!' }
+    { email: 'technisuivi-test-user@outlook.fr', pass: 'Password123!' },
+    { email: 'test-technisuivi@yopmail.com', pass: 'Password123!' },
+    { email: 'artisan.test.technisuivi@gmail.com', pass: 'Password123!' },
+    { email: 'admin@helppilot.fr', pass: 'Password123!' }
   ]
   
   for (const acc of accounts) {

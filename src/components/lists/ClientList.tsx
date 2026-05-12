@@ -36,17 +36,16 @@ export function ClientList({ initialClients }: { initialClients: any[] }) {
       </div>
 
       {initialClients.length > 0 && (
-        <div className="mb-6 relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-muted" />
+        <div className="filter-bar">
+          <div className="search-bar">
+            <Search />
+            <input
+              type="search"
+              placeholder="Rechercher par nom, société, téléphone..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-          <input
-            type="search"
-            className="form-control pl-10 bg-[var(--color-surface)] border-transparent focus:border-primary focus:bg-[var(--color-background)] transition-all w-full md:max-w-md"
-            placeholder="Rechercher par nom, société, téléphone..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
         </div>
       )}
 

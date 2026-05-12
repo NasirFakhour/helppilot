@@ -1,33 +1,35 @@
 /* ============================================================
-   HelpPilot — main.css
+   TechniSuivi — main.css
    Design system: variables, reset, base styles
    ============================================================ */
 
-/* ── Google Font fallback ── */
-/* @import moved to globals.css */
-
 /* ── CSS Custom Properties ── */
 :root {
-  /* Colors - Premium B2B Palette (Zinc/Blue) */
-  --color-primary:        #0F172A; /* Deep Navy/Zinc */
-  --color-primary-light:  #F1F5F9;
-  --color-primary-dark:   #020617;
-  --color-primary-hover:  #1E293B;
+  /* Brand Colors — Indigo/Violet accent */
+  --color-brand:          #1E293B;
+  --color-brand-light:    #334155;
 
-  /* Accent Blue for interactions */
-  --color-accent:         #2563EB;
-  --color-accent-light:   #DBEAFE;
+  /* Accent — Indigo/Violet */
+  --color-accent:         #6366F1;
+  --color-accent-hover:   #4F46E5;
+  --color-accent-light:   rgba(99, 102, 241, 0.10);
+  --color-accent-glow:    rgba(99, 102, 241, 0.25);
 
+  /* Aliases for components */
+  --color-primary:        var(--color-accent);
+  --color-primary-light:  var(--color-accent-light);
+
+  /* Semantic */
   --color-success:        #10B981;
-  --color-success-light:  #F0FDF4;
+  --color-success-light:  rgba(16, 185, 129, 0.10);
   --color-warning:        #F59E0B;
-  --color-warning-light:  #FFFBEB;
+  --color-warning-light:  rgba(245, 158, 11, 0.10);
   --color-danger:         #EF4444;
-  --color-danger-light:   #FEF2F2;
+  --color-danger-light:   rgba(239, 68, 68, 0.10);
   --color-info:           #3B82F6;
-  --color-info-light:     #EFF6FF;
+  --color-info-light:     rgba(59, 130, 246, 0.10);
 
-  /* Neutrals */
+  /* Neutrals — Light mode */
   --color-text:           #0F172A;
   --color-text-secondary: #475569;
   --color-text-muted:     #94A3B8;
@@ -35,9 +37,14 @@
   --color-border-light:   #F1F5F9;
   --color-surface:        #F8FAFC;
   --color-card:           #FFFFFF;
+  --color-background:     #F1F5F9;
+
+  /* Sidebar */
   --color-sidebar-bg:     #0F172A;
-  --color-sidebar-text:   #F1F5F9;
-  --color-sidebar-active: rgba(255, 255, 255, 0.1);
+  --color-sidebar-text:   #CBD5E1;
+  --color-sidebar-active: rgba(99, 102, 241, 0.15);
+  --color-sidebar-hover:  rgba(255, 255, 255, 0.05);
+  --color-sidebar-border: rgba(255, 255, 255, 0.06);
 
   /* Spacing */
   --space-1:  4px;
@@ -54,83 +61,81 @@
   /* Border radius */
   --radius-sm:  4px;
   --radius:     8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
   --radius-full: 9999px;
 
-  /* Shadows - Subtle & Deep */
-  --shadow-xs:  0 1px 2px rgba(15,23,42,0.05);
-  --shadow-sm:  0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow:     0 4px 6px -1px rgba(15,23,42,0.1), 0 2px 4px -2px rgba(15,23,42,0.05);
-  --shadow-md:  0 12px 20px -8px rgba(15,23,42,0.15);
-  --shadow-lg:  0 25px 50px -12px rgba(15,23,42,0.2);
+  /* Shadows — Refined */
+  --shadow-xs:  0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm:  0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow:     0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-md:  0 10px 20px -6px rgba(15, 23, 42, 0.10);
+  --shadow-lg:  0 20px 40px -12px rgba(15, 23, 42, 0.15);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.02);
 
   /* Typography */
   --font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-size-xs:   12px;
+  --font-size-xs:   11px;
   --font-size-sm:   13px;
   --font-size-base: 14px;
-  --font-size-md:   16px;
-  --font-size-lg:   18px;
+  --font-size-md:   15px;
+  --font-size-lg:   17px;
   --font-size-xl:   20px;
   --font-size-2xl:  24px;
   --font-size-3xl:  30px;
-  --font-size-4xl:  36px;
 
   --font-weight-normal:   400;
   --font-weight-medium:   500;
   --font-weight-semibold: 600;
   --font-weight-bold:     700;
 
-  --line-height-tight:  1.2;
+  --line-height-tight:  1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;
 
   /* Transitions */
   --transition-fast:   0.1s ease;
-  --transition:        0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow:   0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition:        0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Layout */
   --sidebar-width:     260px;
-  --topbar-height:     64px;
+  --topbar-height:     56px;
   --content-max-width: 1200px;
 }
 
+/* ── Dark Mode ── */
 .dark {
-  /* Dark Mode - Professional Deep Slate */
-  --color-primary:        #F8FAFC;
-  --color-primary-light:  #1E293B;
-  --color-primary-dark:   #FFFFFF;
-  --color-primary-hover:  #F1F5F9;
+  --color-accent:         #818CF8;
+  --color-accent-hover:   #6366F1;
+  --color-accent-light:   rgba(129, 140, 248, 0.12);
+  --color-accent-glow:    rgba(129, 140, 248, 0.20);
 
-  --color-accent:         #3B82F6;
-  --color-accent-light:   rgba(59, 130, 246, 0.15);
+  --color-success-light:  rgba(16, 185, 129, 0.12);
+  --color-warning-light:  rgba(245, 158, 11, 0.12);
+  --color-danger-light:   rgba(239, 68, 68, 0.12);
+  --color-info-light:     rgba(59, 130, 246, 0.12);
 
-  --color-success-light:  rgba(16, 185, 129, 0.1);
-  --color-warning-light:  rgba(245, 158, 11, 0.1);
-  --color-danger-light:   rgba(239, 68, 68, 0.1);
-  --color-info-light:     rgba(59, 130, 246, 0.1);
-
-  --color-text:           #F8FAFC;
+  --color-text:           #F1F5F9;
   --color-text-secondary: #94A3B8;
   --color-text-muted:     #64748B;
   
-  --color-border:         #334155;
-  --color-border-light:   #1E293B;
+  --color-border:         rgba(255, 255, 255, 0.08);
+  --color-border-light:   rgba(255, 255, 255, 0.04);
   
   --color-surface:        #020617;
   --color-card:           #0F172A;
+  --color-background:     #020617;
   
   --color-sidebar-bg:     #020617;
-  --color-sidebar-text:   #F1F5F9;
-  --color-sidebar-active: rgba(255, 255, 255, 0.05);
+  --color-sidebar-active: rgba(129, 140, 248, 0.12);
 
-  --shadow-xs:  0 1px 2px rgba(0,0,0,0.4);
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.5);
-  --shadow:     0 4px 6px -1px rgba(0,0,0,0.5);
-  --shadow-md:  0 12px 20px -8px rgba(0,0,0,0.6);
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow:     0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 10px 20px -6px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 
@@ -151,7 +156,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-background);
   line-height: var(--line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -159,7 +164,7 @@ body {
 }
 
 a {
-  color: var(--color-primary);
+  color: inherit;
   text-decoration: none;
 }
 
@@ -188,6 +193,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text);
+  letter-spacing: -0.01em;
 }
 
 h1 { font-size: var(--font-size-2xl); }
@@ -205,7 +211,7 @@ p { line-height: var(--line-height-relaxed); }
   clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
 }
 
-.text-primary   { color: var(--color-primary); }
+.text-primary   { color: var(--color-accent); }
 .text-success   { color: var(--color-success); }
 .text-warning   { color: var(--color-warning); }
 .text-danger    { color: var(--color-danger); }
@@ -250,24 +256,24 @@ p { line-height: var(--line-height-relaxed); }
 .mb-6 { margin-bottom: var(--space-6); }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
 /* ── Animations ── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(-12px); }
+  from { opacity: 0; transform: translateX(-10px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -281,5 +287,5 @@ p { line-height: var(--line-height-relaxed); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-.animate-fade-in   { animation: fadeIn var(--transition-slow) both; }
-.animate-slide-up  { animation: slideUp var(--transition-slow) both; }
+.animate-fade-in   { animation: fadeIn 0.25s ease both; }
+.animate-slide-up  { animation: slideUp 0.3s ease both; }

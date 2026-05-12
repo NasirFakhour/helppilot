@@ -67,21 +67,18 @@ export function InterventionList({ initialInterventions }: { initialIntervention
       </div>
 
       {initialInterventions.length > 0 && (
-        <div className="mb-6 flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1 max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-muted" />
-            </div>
+        <div className="filter-bar">
+          <div className="search-bar">
+            <Search />
             <input
               type="search"
-              className="form-control pl-10 bg-[var(--color-surface)] border-transparent focus:border-primary focus:bg-[var(--color-background)] transition-all w-full"
               placeholder="Rechercher par client, description..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <select 
-            className="form-control bg-[var(--color-surface)] border-transparent focus:border-primary w-full sm:w-48"
+            className="form-control w-full sm:w-48"
             value={filterStatut}
             onChange={(e) => setFilterStatut(e.target.value)}
           >
