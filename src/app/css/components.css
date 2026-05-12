@@ -647,6 +647,37 @@ select.form-control {
 .relance-detail  { font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: 2px; }
 .relance-actions { display: flex; gap: var(--space-2); flex-shrink: 0; }
 
+/* ══ HELP BUTTON ══════════════════════════════════════════ */
+.btn-help {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  background: var(--color-brand);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-sidebar-border);
+}
+
+.btn-help:hover {
+  transform: scale(1.1);
+  background: var(--color-accent);
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.btn-help svg {
+  width: 20px;
+  height: 20px;
+}
+
+
 /* ══ PAGE HEADER ══════════════════════════════════════════ */
 .page-header {
   display: flex;

@@ -83,8 +83,8 @@ export default function SettingsPage() {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label" htmlFor="nom_societe">Nom de la société / Nom commercial</label>
-                <input type="text" id="nom_societe" name="nom_societe" className="form-control" defaultValue={profile?.nom_societe || ''} placeholder="Ex: Informatique Services" />
+                <label className="form-label" htmlFor="nom_societe">Nom de la société / Nom commercial *</label>
+                <input type="text" id="nom_societe" name="nom_societe" className="form-control" defaultValue={profile?.nom_societe || ''} placeholder="Ex: Informatique Services" required />
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="siret">Numéro de SIRET</label>
@@ -94,23 +94,23 @@ export default function SettingsPage() {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label" htmlFor="telephone">Téléphone professionnel</label>
-                <input type="tel" id="telephone" name="telephone" className="form-control" defaultValue={profile?.telephone || ''} placeholder="06 00 00 00 00" />
+                <label className="form-label" htmlFor="telephone">Téléphone professionnel *</label>
+                <input type="tel" id="telephone" name="telephone" className="form-control" defaultValue={profile?.telephone || ''} placeholder="06 00 00 00 00" required />
               </div>
               <div className="form-group">
-                <label className="form-label" htmlFor="adresse">Adresse du siège</label>
-                <input type="text" id="adresse" name="adresse" className="form-control" defaultValue={profile?.adresse || ''} placeholder="12 rue des Artisans" />
+                <label className="form-label" htmlFor="adresse">Adresse du siège / Personnelle *</label>
+                <input type="text" id="adresse" name="adresse" className="form-control" defaultValue={profile?.adresse || ''} placeholder="12 rue des Artisans" required />
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label" htmlFor="code_postal">Code Postal</label>
-                <input type="text" id="code_postal" name="code_postal" className="form-control" defaultValue={profile?.code_postal || ''} placeholder="69000" />
+                <label className="form-label" htmlFor="code_postal">Code Postal *</label>
+                <input type="text" id="code_postal" name="code_postal" className="form-control" defaultValue={profile?.code_postal || ''} placeholder="69000" required />
               </div>
               <div className="form-group">
-                <label className="form-label" htmlFor="ville">Ville</label>
-                <input type="text" id="ville" name="ville" className="form-control" defaultValue={profile?.ville || ''} placeholder="Lyon" />
+                <label className="form-label" htmlFor="ville">Ville *</label>
+                <input type="text" id="ville" name="ville" className="form-control" defaultValue={profile?.ville || ''} placeholder="Lyon" required />
               </div>
             </div>
 

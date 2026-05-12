@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Topbar } from '@/components/layout/Topbar'
+import { HelpCircle } from 'lucide-react'
 
 export default function AppLayout({
   children,
@@ -22,6 +23,10 @@ export default function AppLayout({
           {children}
         </main>
       </div>
+
+      <a href="mailto:support@technisuivi.fr?subject=Besoin d'aide" className="btn-help" title="Besoin d'aide ?">
+        <HelpCircle />
+      </a>
     </div>
   )
 }
