@@ -22,7 +22,6 @@ export async function createClientRecord(formData: FormData) {
     adresse: formData.get('adresse') as string,
     ville: formData.get('ville') as string,
     code_postal: formData.get('code_postal') as string,
-    ville: formData.get('ville') as string,
     siret: formData.get('siret') as string,
     notes: formData.get('notes') as string,
   }
