@@ -87,15 +87,37 @@ export default function SettingsPage() {
                 <input type="text" id="nom_societe" name="nom_societe" className="form-control" defaultValue={profile?.nom_societe || ''} placeholder="Ex: Informatique Services" />
               </div>
               <div className="form-group">
+                <label className="form-label" htmlFor="siret">Numéro de SIRET</label>
+                <input type="text" id="siret" name="siret" className="form-control" defaultValue={profile?.siret || ''} placeholder="123 456 789 00012" />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
                 <label className="form-label" htmlFor="telephone">Téléphone professionnel</label>
                 <input type="tel" id="telephone" name="telephone" className="form-control" defaultValue={profile?.telephone || ''} placeholder="06 00 00 00 00" />
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="adresse">Adresse du siège</label>
+                <input type="text" id="adresse" name="adresse" className="form-control" defaultValue={profile?.adresse || ''} placeholder="12 rue des Artisans" />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label" htmlFor="code_postal">Code Postal</label>
+                <input type="text" id="code_postal" name="code_postal" className="form-control" defaultValue={profile?.code_postal || ''} placeholder="69000" />
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="ville">Ville</label>
+                <input type="text" id="ville" name="ville" className="form-control" defaultValue={profile?.ville || ''} placeholder="Lyon" />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="signature">Signature des documents</label>
-              <textarea id="signature" name="signature" rows={4} className="form-control" defaultValue={profile?.signature || ''} placeholder="Votre nom, titre et mentions légales..."></textarea>
-              <p className="form-hint">Cette signature apparaîtra au bas de vos rapports d'intervention.</p>
+              <label className="form-label" htmlFor="signature">Signature des documents / Mentions légales</label>
+              <textarea id="signature" name="signature" rows={4} className="form-control" defaultValue={profile?.signature || ''} placeholder="Vos informations légales complètes..."></textarea>
+              <p className="form-hint">Ces informations apparaîtront au bas de vos rapports et documents.</p>
             </div>
           </div>
           

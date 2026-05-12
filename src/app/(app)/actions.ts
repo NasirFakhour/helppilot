@@ -22,6 +22,8 @@ export async function createClientRecord(formData: FormData) {
     adresse: formData.get('adresse') as string,
     ville: formData.get('ville') as string,
     code_postal: formData.get('code_postal') as string,
+    ville: formData.get('ville') as string,
+    siret: formData.get('siret') as string,
     notes: formData.get('notes') as string,
   }
 
@@ -44,6 +46,7 @@ export async function updateClientRecord(id: string, formData: FormData) {
     adresse: formData.get('adresse') as string,
     ville: formData.get('ville') as string,
     code_postal: formData.get('code_postal') as string,
+    siret: formData.get('siret') as string,
     notes: formData.get('notes') as string,
     updated_at: new Date().toISOString()
   }
@@ -136,7 +139,11 @@ export async function updateSettings(formData: FormData) {
 
   const data = {
     nom_societe: formData.get('nom_societe') as string,
+    siret: formData.get('siret') as string,
     telephone: formData.get('telephone') as string,
+    adresse: formData.get('adresse') as string,
+    code_postal: formData.get('code_postal') as string,
+    ville: formData.get('ville') as string,
     signature: formData.get('signature') as string,
   }
 

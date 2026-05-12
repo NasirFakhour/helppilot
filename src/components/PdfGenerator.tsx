@@ -22,40 +22,78 @@ export function PdfGenerator({ document, client, profile }: PdfGeneratorProps) {
       const isFacture = document.type === 'facture'
       const primaryColor: [number, number, number] = [37, 99, 235] // blue-600
 
-      // --- Header ---
-      doc.setFontSize(22)
+      // --- Header: Centered Title ---
+      doc.setFontSize(26)
       doc.setTextColor(...primaryColor)
-      doc.text(title, 14, 20)
+      doc.setFont('helvetica', 'bold')
+      doc.text(title, 105, 25, { align: 'center' })
+      
+      // Divider
+      doc.setDrawColor(...primaryColor)
+      doc.setLineWidth(0.5)
+      doc.line(80, 30, 130, 30)
 
       doc.setFontSize(10)
       doc.setTextColor(100, 100, 100)
-      doc.text(`Numéro : ${document.numero || ''}`, 14, 28)
-      doc.text(`Date d'émission : ${formatDate(document.date_emission)}`, 14, 34)
+      doc.setFont('helvetica', 'normal')
+      doc.text(`Numéro : ${document.numero || ''}`, 105, 38, { align: 'center' })
+      doc.text(`Date d'émission : ${formatDate(document.date_emission)}`, 105, 44, { align: 'center' })
       if (document.date_echeance) {
-        doc.text(`Date ${isFacture ? 'd\'échéance' : 'de validité'} : ${formatDate(document.date_echeance)}`, 14, 40)
+        doc.text(`Date ${isFacture ? 'd\'échéance' : 'de validité'} : ${formatDate(document.date_echeance)}`, 105, 50, { align: 'center' })
       }
 
-      // --- Enterprise Info (Top Left) ---
+      // --- Enterprise Info (Left) ---
       doc.setFontSize(11)
       doc.setTextColor(40, 40, 40)
       doc.setFont('helvetica', 'bold')
-      doc.text(profile?.nom_societe || 'Mon Entreprise', 14, 55)
+      const entY = 70
+      doc.text(profile?.nom_societe || 'Mon Entreprise', 14, entY)
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(10)
-      if (profile?.email) doc.text(profile.email, 14, 61)
-      if (profile?.telephone) doc.text(profile.telephone, 14, 67)
+      let currentY = entY + 6
+      
+      if (profile?.adresse) {
+        doc.text(profile.adresse, 14, currentY)
+        currentY += 6
+      }
+      if (profile?.code_postal || profile?.ville) {
+        doc.text(`${profile.code_postal || ''} ${profile.ville || ''}`, 14, currentY)
+        currentY += 6
+      }
+      if (profile?.telephone) {
+        doc.text(`Tél : ${profile.telephone}`, 14, currentY)
+        currentY += 6
+      }
+      if (profile?.siret) {
+        doc.text(`SIRET : ${profile.siret}`, 14, currentY)
+      }
 
-      // --- Client Info (Top Right) ---
+      // --- Client Info (Right) ---
       doc.setFontSize(11)
       doc.setFont('helvetica', 'bold')
-      const clientX = 130
-      doc.text('Adressé à :', clientX, 55)
+      const clientX = 120
+      doc.text('Client :', clientX, entY)
       doc.setFont('helvetica', 'normal')
+      doc.setFontSize(10)
+      let clY = entY + 6
+      
       if (client) {
-        doc.text(fullName(client), clientX, 61)
-        if (client.adresse) doc.text(client.adresse, clientX, 67)
+        doc.text(fullName(client), clientX, clY)
+        clY += 6
+        if (client.adresse) {
+          doc.text(client.adresse, clientX, clY)
+          clY += 6
+        }
         if (client.code_postal || client.ville) {
-          doc.text(`${client.code_postal || ''} ${client.ville || ''}`, clientX, 73)
+          doc.text(`${client.code_postal || ''} ${client.ville || ''}`, clientX, clY)
+          clY += 6
+        }
+        if (client.telephone) {
+          doc.text(`Tél : ${client.telephone}`, clientX, clY)
+          clY += 6
+        }
+        if (client.siret) {
+          doc.text(`SIRET : ${client.siret}`, clientX, clY)
         }
       }
 

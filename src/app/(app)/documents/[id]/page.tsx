@@ -47,6 +47,38 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="card">
+          <div className="card-header">
+            <h3 className="card-title">Émetteur</h3>
+          </div>
+          <div className="card-body text-sm space-y-1">
+            <div className="font-bold text-lg">{profile?.nom_societe || 'Mon Entreprise'}</div>
+            {profile?.adresse && <div>{profile.adresse}</div>}
+            {(profile?.code_postal || profile?.ville) && (
+              <div>{profile.code_postal} {profile.ville}</div>
+            )}
+            {profile?.telephone && <div className="text-muted">Tél : {profile.telephone}</div>}
+            {profile?.siret && <div className="text-muted">SIRET : {profile.siret}</div>}
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-header">
+            <h3 className="card-title">Destinataire</h3>
+          </div>
+          <div className="card-body text-sm space-y-1">
+            <div className="font-bold text-lg">{fullName(document.clients)}</div>
+            {document.clients?.adresse && <div>{document.clients.adresse}</div>}
+            {(document.clients?.code_postal || document.clients?.ville) && (
+              <div>{document.clients.code_postal} {document.clients.ville}</div>
+            )}
+            {document.clients?.telephone && <div className="text-muted">Tél : {document.clients.telephone}</div>}
+            {document.clients?.siret && <div className="text-muted">SIRET : {document.clients.siret}</div>}
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="card md:col-span-2">
           <div className="card-header">
@@ -98,30 +130,6 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
         </div>
 
         <div className="space-y-6">
-          <div className="card">
-            <div className="card-header">
-              <h3 className="card-title">Informations</h3>
-            </div>
-            <div className="card-body space-y-4">
-              <div>
-                <span className="text-xs text-muted block mb-1">Client</span>
-                <Link href={`/clients/${document.client_id}`} className="font-bold hover:underline text-primary">
-                  {fullName(document.clients)}
-                </Link>
-              </div>
-              <div>
-                <span className="text-xs text-muted block mb-1">Statut</span>
-                <span className="badge badge-primary">{document.statut}</span>
-              </div>
-              {document.date_echeance && (
-                <div>
-                  <span className="text-xs text-muted block mb-1">Échéance</span>
-                  <span className="font-medium">{formatDate(document.date_echeance)}</span>
-                </div>
-              )}
-            </div>
-          </div>
-
           {document.notes && (
             <div className="card">
               <div className="card-header">

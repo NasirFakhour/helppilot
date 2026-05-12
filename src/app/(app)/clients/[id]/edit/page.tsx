@@ -85,6 +85,10 @@ export default function EditClientPage() {
                 <label className="form-label" htmlFor="nom">Nom ou Société *</label>
                 <input type="text" id="nom" name="nom" className="form-control" required defaultValue={client.nom || ''} placeholder="Dupont" />
               </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="siret">SIRET (pour les professionnels)</label>
+                <input type="text" id="siret" name="siret" className="form-control" defaultValue={client.siret || ''} placeholder="123 456 789 00012" />
+              </div>
             </div>
           </div>
 
