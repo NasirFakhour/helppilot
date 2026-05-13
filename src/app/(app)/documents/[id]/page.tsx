@@ -37,12 +37,12 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
         </Link>
       </div>
 
-      <div className="page-header">
+      <div className="page-header items-start sm:items-center">
         <div className="page-header-left">
-          <h1>{typeLabel} {document.numero}</h1>
-          <p>Créé le {formatDate(document.date_emission)}</p>
+          <h1 className="text-3xl font-bold tracking-tight">{typeLabel} {document.numero}</h1>
+          <p className="text-secondary">Créé le {formatDate(document.date_emission)}</p>
         </div>
-        <div className="page-header-actions">
+        <div className="page-header-actions w-full sm:w-auto">
           <PdfGenerator document={document} client={document.clients} profile={profile || {}} />
         </div>
       </div>
@@ -52,14 +52,14 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
           <div className="card-header">
             <h3 className="card-title">Émetteur</h3>
           </div>
-          <div className="card-body text-sm space-y-1">
-            <div className="font-bold text-lg">{profile?.nom_societe || 'Mon Entreprise'}</div>
-            {profile?.adresse && <div>{profile.adresse}</div>}
+          <div className="card-body text-sm space-y-2">
+            <div className="font-bold text-xl text-[var(--color-text)] mb-2">{profile?.nom_societe || 'Mon Entreprise'}</div>
+            {profile?.adresse && <div className="flex items-center gap-2 text-secondary"><MapPin className="w-3.5 h-3.5" /> {profile.adresse}</div>}
             {(profile?.code_postal || profile?.ville) && (
-              <div>{profile.code_postal} {profile.ville}</div>
+              <div className="text-secondary ml-5">{profile.code_postal} {profile.ville}</div>
             )}
-            {profile?.telephone && <div className="text-muted">Tél : {profile.telephone}</div>}
-            {profile?.siret && <div className="text-muted">SIRET : {profile.siret}</div>}
+            {profile?.telephone && <div className="flex items-center gap-2 text-secondary"><Phone className="w-3.5 h-3.5" /> {profile.telephone}</div>}
+            {profile?.siret && <div className="mt-4 pt-4 border-t border-[var(--color-border-light)] text-xs text-muted">SIRET : {profile.siret}</div>}
           </div>
         </div>
 
@@ -67,14 +67,14 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
           <div className="card-header">
             <h3 className="card-title">Destinataire</h3>
           </div>
-          <div className="card-body text-sm space-y-1">
-            <div className="font-bold text-lg">{fullName(document.clients)}</div>
-            {document.clients?.adresse && <div>{document.clients.adresse}</div>}
+          <div className="card-body text-sm space-y-2">
+            <div className="font-bold text-xl text-[var(--color-text)] mb-2">{fullName(document.clients)}</div>
+            {document.clients?.adresse && <div className="flex items-center gap-2 text-secondary"><MapPin className="w-3.5 h-3.5" /> {document.clients.adresse}</div>}
             {(document.clients?.code_postal || document.clients?.ville) && (
-              <div>{document.clients.code_postal} {document.clients.ville}</div>
+              <div className="text-secondary ml-5">{document.clients.code_postal} {document.clients.ville}</div>
             )}
-            {document.clients?.telephone && <div className="text-muted">Tél : {document.clients.telephone}</div>}
-            {document.clients?.siret && <div className="text-muted">SIRET : {document.clients.siret}</div>}
+            {document.clients?.telephone && <div className="flex items-center gap-2 text-secondary"><Phone className="w-3.5 h-3.5" /> {document.clients.telephone}</div>}
+            {document.clients?.siret && <div className="mt-4 pt-4 border-t border-[var(--color-border-light)] text-xs text-muted">SIRET : {document.clients.siret}</div>}
           </div>
         </div>
       </div>
@@ -120,9 +120,9 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
                     <span>{formatCurrency(document.total_ttc - document.total_ht)}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center font-black text-xl pt-2 border-t border-[var(--color-border-light)]">
+                <div className="flex justify-between items-center font-bold text-2xl pt-2 border-t border-[var(--color-border)]">
                   <span>Total TTC</span>
-                  <span className="text-primary">{formatCurrency(document.total_ttc)}</span>
+                  <span className="text-[var(--color-accent)]">{formatCurrency(document.total_ttc)}</span>
                 </div>
               </div>
             </div>

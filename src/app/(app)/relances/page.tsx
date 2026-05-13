@@ -53,13 +53,13 @@ export default async function RelancesPage() {
 
   return (
     <div className="animate-fade-in">
-      <div className="page-header">
+      <div className="page-header items-start sm:items-center">
         <div className="page-header-left">
-          <h1>Relances de paiement</h1>
-          <p>Suivi des factures impayées à J+7, J+14 et J+21</p>
+          <h1 className="text-3xl font-bold tracking-tight">Relances de paiement</h1>
+          <p className="text-secondary">Suivi des factures impayées et missions terminées</p>
         </div>
-        <div className="page-header-actions">
-          <div className="badge badge-danger p-4 text-sm font-bold shadow-sm">
+        <div className="page-header-actions w-full sm:w-auto">
+          <div className="badge badge-danger p-4 text-base font-bold shadow-md w-full justify-center">
             À recouvrer : {formatCurrency(pendingPayments)}
           </div>
         </div>
@@ -81,36 +81,39 @@ export default async function RelancesPage() {
           <div className="card-body p-0">
             <div className="divide-y divide-[var(--color-border-light)]">
               {relances.map((r: any) => (
-                <div key={r.id} className="relance-item p-6">
-                  <div className="relance-content">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`badge ${r.urgency === 3 ? 'badge-danger' : r.urgency === 2 ? 'badge-warning' : 'badge-primary'}`}>
+                <div key={`${r.relanceSource}-${r.id}`} className="relance-item p-6 flex flex-col md:flex-row md:items-center gap-6 hover:bg-[var(--color-surface)] transition-all">
+                  <div className="relance-content flex-1">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className={`badge ${r.urgency >= 3 ? 'badge-danger' : r.urgency === 2 ? 'badge-warning' : 'badge-primary'} shadow-sm`}>
                         {r.relanceType}
                       </span>
                       {r.statut_paiement === 'en-attente' && (
                         <span className="badge badge-neutral">Déjà relancé</span>
                       )}
+                      {r.relanceSource === 'invoice' && (
+                        <span className="badge badge-info">Facture</span>
+                      )}
                     </div>
-                    <div className="relance-client">{fullName(r.clients)}</div>
-                    <div className="relance-detail">
-                      Intervention du {formatDate(r.date)} — {r.description}
+                    <div className="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors">{fullName(r.clients)}</div>
+                    <div className="text-sm text-secondary mt-1">
+                      {r.relanceSource === 'invoice' ? `Échéance le ${formatDate(r.date_echeance)}` : `Terminée le ${formatDate(r.date)}`} — {r.description}
                     </div>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-                    <div className="text-xl font-bold md:mr-4">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto">
+                    <div className="text-2xl font-black md:text-right md:min-w-[120px]">
                       {formatCurrency(r.montant)}
                     </div>
-                    <div className="relance-actions w-full sm:w-auto">
+                    <div className="flex gap-2 flex-1 sm:flex-none">
                       <form action={markRelanceSent.bind(null, r.id)} className="flex-1 sm:flex-none">
                         <button type="submit" className="btn btn-secondary w-full" disabled={r.statut_paiement === 'en-attente'}>
-                          <Mail className="w-4 h-4" />
-                          <span>{r.statut_paiement === 'en-attente' ? 'Relancé' : 'Relancer'}</span>
+                          <Mail className="w-4 h-4 mr-2" />
+                          <span>Relancer</span>
                         </button>
                       </form>
                       <form action={markAsPaid.bind(null, r.id)} className="flex-1 sm:flex-none">
-                        <button type="submit" className="btn btn-success w-full">
-                          <Check className="w-4 h-4" />
+                        <button type="submit" className="btn btn-success w-full shadow-sm">
+                          <Check className="w-4 h-4 mr-2" />
                           <span>Payé</span>
                         </button>
                       </form>

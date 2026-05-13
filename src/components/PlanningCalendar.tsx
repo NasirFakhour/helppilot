@@ -60,12 +60,12 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      'a-planifier': 'bg-gray-500',
-      'planifiee': 'bg-indigo-500',
-      'en-cours': 'bg-amber-500',
-      'terminee': 'bg-emerald-500',
-      'facturee': 'bg-blue-500',
-      'annulee': 'bg-rose-500'
+      'a-planifier': 'bg-[var(--color-text-muted)]',
+      'planifiee': 'bg-[var(--color-accent)]',
+      'en-cours': 'bg-[var(--color-warning)]',
+      'terminee': 'bg-[var(--color-success)]',
+      'facturee': 'bg-[var(--color-info)]',
+      'annulee': 'bg-[var(--color-danger)]'
     }
     return colors[status] || 'bg-gray-500'
   }
@@ -78,67 +78,69 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
   return (
     <div className="flex flex-col h-full bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] overflow-hidden shadow-sm">
       {/* Calendar Header */}
-      <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-3 sm:p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)] gap-4">
+        <div className="flex items-center justify-between sm:justify-start gap-4">
           <div className="flex items-center bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] p-1">
             <button 
               onClick={() => navigate(-1)}
               className="p-1.5 hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              aria-label="Précédent"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button 
               onClick={() => setCurrentDate(new Date())}
-              className="px-3 py-1.5 text-sm font-bold hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              className="px-3 py-1.5 text-xs sm:text-sm font-bold hover:bg-[var(--color-surface)] rounded-md transition-colors"
             >
               Aujourd'hui
             </button>
             <button 
               onClick={() => navigate(1)}
               className="p-1.5 hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              aria-label="Suivant"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-          <h2 className="text-lg font-black min-w-[200px]">
+          <h2 className="text-sm sm:text-lg font-bold truncate">
             {view === 'week' 
-              ? `${format(weekStart, 'd MMMM', { locale: fr })} - ${format(weekEnd, 'd MMMM yyyy', { locale: fr })}`
-              : format(currentDate, 'EEEE d MMMM yyyy', { locale: fr })
+              ? `${format(weekStart, 'd MMM', { locale: fr })} - ${format(weekEnd, 'd MMM yyyy', { locale: fr })}`
+              : format(currentDate, 'EEEE d MMMM', { locale: fr })
             }
           </h2>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] p-1">
+        <div className="flex items-center justify-between sm:justify-end gap-2">
+          <div className="flex bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] p-1 flex-1 sm:flex-none">
             <button 
               onClick={() => setView('day')}
-              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all ${view === 'day' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
+              className={`flex-1 sm:flex-none px-4 py-1.5 text-xs sm:text-sm font-bold rounded-md transition-all ${view === 'day' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
             >
               Jour
             </button>
             <button 
               onClick={() => setView('week')}
-              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all ${view === 'week' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
+              className={`flex-1 sm:flex-none px-4 py-1.5 text-xs sm:text-sm font-bold rounded-md transition-all ${view === 'week' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
             >
               Semaine
             </button>
           </div>
-          <Link href="/interventions/new" className="btn btn-primary btn-sm ml-2">
+          <Link href="/interventions/new" className="btn btn-primary btn-sm h-[38px] px-3 sm:px-4">
             <Plus className="w-4 h-4" />
-            Nouveau
+            <span className="hidden sm:inline">Nouveau</span>
           </Link>
         </div>
       </div>
 
       {/* Calendar Grid */}
       <div className="flex-1 overflow-auto relative">
-        <div className="flex min-w-[800px] h-full">
+        <div className={`flex h-full ${view === 'week' ? 'min-w-[800px] sm:min-w-0' : 'min-w-0'}`}>
           {/* Time Gutter */}
-          <div className="w-20 flex-shrink-0 border-right border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-20">
-            <div className="h-12 border-b border-[var(--color-border)]"></div> {/* Header corner */}
+          <div className="w-14 sm:w-20 flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-20">
+            <div className="h-10 sm:h-12 border-b border-[var(--color-border)]"></div>
             {hours.map(hour => (
               <div key={hour} className="h-20 flex items-start justify-center pt-2">
-                <span className="text-[11px] font-bold text-[var(--color-text-muted)] uppercase">{hour}:00</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-[var(--color-text-muted)] uppercase">{hour}:00</span>
               </div>
             ))}
           </div>
@@ -148,13 +150,13 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
             const dayInterventions = getInterventionsForDay(day)
             
             return (
-              <div key={idx} className="flex-1 min-w-[150px] border-r border-[var(--color-border)] relative">
+              <div key={idx} className="flex-1 min-w-[120px] border-r border-[var(--color-border-light)] relative">
                 {/* Day Header */}
-                <div className={`h-12 border-b border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-10 ${isToday(day) ? 'bg-[var(--color-accent-light)]' : 'bg-[var(--color-surface)]'}`}>
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${isToday(day) ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
+                <div className={`h-10 sm:h-12 border-b border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-10 ${isToday(day) ? 'bg-[var(--color-accent-light)]' : 'bg-[var(--color-surface)]'}`}>
+                  <span className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-widest ${isToday(day) ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
                     {format(day, 'EEE', { locale: fr })}
                   </span>
-                  <span className={`text-sm font-bold ${isToday(day) ? 'text-[var(--color-accent)]' : ''}`}>
+                  <span className={`text-xs sm:text-sm font-bold ${isToday(day) ? 'text-[var(--color-accent)]' : ''}`}>
                     {format(day, 'd')}
                   </span>
                 </div>
@@ -168,7 +170,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                 {dayInterventions.map(i => {
                   const hour = parseInt(i.heure?.split(':')[0] || '8')
                   const minute = parseInt(i.heure?.split(':')[1] || '0')
-                  const top = ((hour - 8) * 80) + (minute / 60 * 80) + 48 // 48 is header height
+                  const top = ((hour - 8) * 80) + (minute / 60 * 80) + (view === 'week' ? 48 : 40) // Adjustment for header height
                   const height = (i.duree || 60) / 60 * 80
 
                   return (

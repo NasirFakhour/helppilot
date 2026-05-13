@@ -36,14 +36,15 @@ export function ClientList({ initialClients }: { initialClients: any[] }) {
       </div>
 
       {initialClients.length > 0 && (
-        <div className="filter-bar">
-          <div className="search-bar">
-            <Search />
+        <div className="filter-bar mb-6">
+          <div className="search-bar w-full max-w-md">
+            <Search className="w-4 h-4" />
             <input
               type="search"
               placeholder="Rechercher par nom, société, téléphone..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              className="w-full"
             />
           </div>
         </div>
@@ -77,35 +78,35 @@ export function ClientList({ initialClients }: { initialClients: any[] }) {
             <div className="table-wrapper">
               <div className="divide-y divide-[var(--color-border-light)]">
                 {filteredClients.map((c: any) => (
-                  <Link key={c.id} href={`/clients/${c.id}`} className="client-card hover:bg-[var(--color-surface)] transition-colors">
-                    <div className="avatar">
+                  <Link key={c.id} href={`/clients/${c.id}`} className="client-card hover:bg-[var(--color-surface)] transition-all group">
+                    <div className="avatar ring-2 ring-[var(--color-card)] shadow-sm">
                       {initials(c.nom, c.prenom)}
                     </div>
                     <div className="client-card-content">
-                      <div className="client-name">{fullName(c)}</div>
-                      <div className="client-meta">
+                      <div className="client-name group-hover:text-[var(--color-accent)] transition-colors">{fullName(c)}</div>
+                      <div className="client-meta flex-wrap gap-x-4 gap-y-1">
                         {c.ville && (
-                          <div className="flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            {c.ville}
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5" />
+                            <span>{c.ville}</span>
                           </div>
                         )}
                         {c.telephone && (
-                          <div className="flex items-center gap-1">
-                            <Phone className="w-3 h-3" />
-                            {c.telephone}
+                          <div className="flex items-center gap-1.5">
+                            <Phone className="w-3.5 h-3.5" />
+                            <span>{c.telephone}</span>
                           </div>
                         )}
                         {c.email && (
-                          <div className="flex items-center gap-1 hidden sm:flex">
-                            <Mail className="w-3 h-3" />
-                            {c.email}
+                          <div className="flex items-center gap-1.5 hidden md:flex">
+                            <Mail className="w-3.5 h-3.5" />
+                            <span className="truncate">{c.email}</span>
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)]" />
+                      <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
                     </div>
                   </Link>
                 ))}

@@ -112,25 +112,25 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="animate-fade-in space-y-8">
+    <div className="animate-fade-in space-y-10">
       <div className="page-header">
         <div className="page-header-left">
-          <h1 className="text-3xl font-black tracking-tight">Bonjour !</h1>
-          <p className="text-lg opacity-60 capitalize">{todayStr}</p>
+          <h1 className="text-3xl font-bold tracking-tight">Bonjour !</h1>
+          <p className="text-lg text-secondary capitalize">{todayStr}</p>
         </div>
         <div className="page-header-actions">
-          <Link href="/planning" className="btn btn-secondary">
+          <Link href="/planning" className="btn btn-secondary shadow-sm">
             <CalendarDays className="w-4 h-4 mr-2" />
             Voir le planning
           </Link>
-          <Link href="/interventions/new" className="btn btn-primary">
+          <Link href="/interventions/new" className="btn btn-primary shadow-glow">
             Planifier une mission
             <ArrowUpRight className="w-4 h-4 ml-2" />
           </Link>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <div className="stat-card">
           <p className="stat-label">Chiffre du mois (payé)</p>
           <p className="stat-value text-[var(--color-success)]">{formatCurrency(monthTurnover)}</p>
@@ -268,23 +268,23 @@ function InterventionTimelineRow({ intervention: i, isOverdue = false }: { inter
 
   return (
     <Link href={`/interventions/${i.id}/edit`} className="group block">
-      <div className="flex gap-4">
+      <div className="flex gap-5">
         <div className="flex flex-col items-center">
-          <div className={`w-3 h-3 rounded-full mt-1.5 ring-4 ${isOverdue ? 'bg-danger ring-danger/10' : 'bg-accent ring-accent/10'}`}></div>
-          <div className="w-px flex-1 bg-[var(--color-border)] my-2"></div>
+          <div className={`w-3.5 h-3.5 rounded-full mt-1.5 ring-4 ${isOverdue ? 'bg-[var(--color-danger)] ring-[var(--color-danger-light)]' : 'bg-[var(--color-accent)] ring-[var(--color-accent-light)]'}`}></div>
+          <div className="w-0.5 flex-1 bg-[var(--color-border-light)] my-2"></div>
         </div>
-        <div className="flex-1 pb-6">
-          <div className="flex justify-between items-start mb-1">
+        <div className="flex-1 pb-8">
+          <div className="flex justify-between items-start mb-2">
             <div>
               <span className="text-xs font-bold text-muted uppercase tracking-wider">{formatTime(i.date)}</span>
-              <h4 className="text-base font-bold group-hover:text-accent transition-colors">{fullName(i.clients)}</h4>
+              <h4 className="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors leading-tight">{fullName(i.clients)}</h4>
             </div>
             <div className="text-right">
-              <p className="text-base font-black">{formatCurrency(i.montant)}</p>
+              <p className="text-lg font-bold">{formatCurrency(i.montant)}</p>
               <span className={`badge badge-${badgeColors[i.statut]} mt-1`}>{statusLabels[i.statut]}</span>
             </div>
           </div>
-          <p className="text-sm text-muted line-clamp-1">{i.description}</p>
+          <p className="text-sm text-secondary line-clamp-1">{i.description}</p>
         </div>
       </div>
     </Link>

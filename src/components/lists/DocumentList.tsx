@@ -69,34 +69,35 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
         </div>
       </div>
 
-      <div className="tab-bar">
+      <div className="tab-bar mb-6">
         <button 
           onClick={() => { router.push('/documents?type=devis'); setFilterStatut('all'); setSearch('') }}
-          className={`tab-item ${defaultTab === 'devis' ? 'active' : ''}`}
+          className={`flex-1 sm:flex-none px-8 py-3 font-bold text-sm border-b-2 transition-all ${defaultTab === 'devis' ? 'border-[var(--color-accent)] text-[var(--color-accent)]' : 'border-transparent text-secondary hover:text-[var(--color-text)]'}`}
         >
           Devis
         </button>
         <button 
           onClick={() => { router.push('/documents?type=facture'); setFilterStatut('all'); setSearch('') }}
-          className={`tab-item ${defaultTab === 'facture' ? 'active' : ''}`}
+          className={`flex-1 sm:flex-none px-8 py-3 font-bold text-sm border-b-2 transition-all ${defaultTab === 'facture' ? 'border-[var(--color-accent)] text-[var(--color-accent)]' : 'border-transparent text-secondary hover:text-[var(--color-text)]'}`}
         >
           Factures
         </button>
       </div>
 
       {initialDocuments.length > 0 && (
-        <div className="filter-bar">
-          <div className="search-bar">
-            <Search />
+        <div className="filter-bar mb-6">
+          <div className="search-bar w-full max-w-md">
+            <Search className="w-4 h-4" />
             <input
               type="search"
               placeholder={`Rechercher un ${defaultTab} (Numéro, Client)...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              className="w-full"
             />
           </div>
           <select 
-            className="form-control w-full sm:w-48"
+            className="form-control w-full sm:w-48 shadow-sm"
             value={filterStatut}
             onChange={(e) => setFilterStatut(e.target.value)}
           >
@@ -145,28 +146,28 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
           <div className="card-body p-0">
             <div className="divide-y divide-[var(--color-border-light)]">
               {filteredDocuments.map((doc: any) => (
-                <Link key={doc.id} href={`/documents/${doc.id}`} className="flex items-center justify-between p-5 hover:bg-[var(--color-surface)] transition-colors group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-[var(--color-primary-light)] text-primary flex items-center justify-center">
+                <Link key={doc.id} href={`/documents/${doc.id}`} className="flex items-center justify-between p-5 hover:bg-[var(--color-surface)] transition-all group">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-all flex-shrink-0">
                       <FileOutput className="w-5 h-5" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <div className="font-bold flex items-center gap-2">
-                        {doc.numero} 
-                        <span className={`badge ${getStatusBadge(doc.statut)} px-2 py-0.5 text-xs`}>
+                        <span className="group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
+                        <span className={`badge ${getStatusBadge(doc.statut)} text-[9px] px-2 py-0.5`}>
                           {getStatusLabel(doc.statut)}
                         </span>
                       </div>
-                      <div className="text-sm text-muted mt-1">
+                      <div className="text-sm text-secondary mt-0.5 truncate">
                         {fullName(doc.clients)} — {formatDate(doc.date_emission)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right font-bold text-lg hidden sm:block">
+                  <div className="flex items-center gap-6 flex-shrink-0">
+                    <div className="text-right font-black text-lg hidden sm:block">
                       {formatCurrency(doc.total_ttc)}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-muted group-hover:text-primary transition-colors" />
+                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
                   </div>
                 </Link>
               ))}

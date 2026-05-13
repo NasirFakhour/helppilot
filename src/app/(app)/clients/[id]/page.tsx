@@ -47,36 +47,39 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         </Link>
       </div>
 
-      <div className="page-header">
-        <div className="flex items-center gap-4">
-          <div className="avatar avatar-xl">
+      <div className="page-header items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+          <div className="avatar avatar-xl ring-4 ring-[var(--color-card)] shadow-md">
             {initials(client.nom, client.prenom)}
           </div>
           <div>
-            <h1>{fullName(client)}</h1>
-            <p className="text-muted">Client depuis le {formatDate(client.created_at)}</p>
+            <h1 className="text-3xl font-bold tracking-tight">{fullName(client)}</h1>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
+              <p className="text-secondary text-sm">Client depuis le {formatDate(client.created_at)}</p>
+              {client.societe && <span className="badge badge-neutral text-[10px]">{client.societe}</span>}
+            </div>
           </div>
         </div>
-        <div className="page-header-actions">
-          <Link href={`/clients/${client.id}/edit`} className="btn btn-secondary">
+        <div className="page-header-actions w-full sm:w-auto">
+          <Link href={`/clients/${client.id}/edit`} className="btn btn-secondary flex-1 sm:flex-none shadow-sm">
             <Edit className="w-4 h-4" />
             <span>Modifier</span>
           </Link>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
         <div className="stat-card">
           <p className="stat-label">Total facturé</p>
           <p className="stat-value">{formatCurrency(totalInvoiced)}</p>
         </div>
         <div className="stat-card">
           <p className="stat-label">Total réglé</p>
-          <p className="stat-value text-success">{formatCurrency(totalPaid)}</p>
+          <p className="stat-value text-[var(--color-success)]">{formatCurrency(totalPaid)}</p>
         </div>
         <div className="stat-card">
           <p className="stat-label">Reste à percevoir</p>
-          <p className="stat-value text-danger">{formatCurrency(balance)}</p>
+          <p className="stat-value text-[var(--color-danger)]">{formatCurrency(balance)}</p>
         </div>
       </div>
 
@@ -150,42 +153,52 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             </div>
             <div className="card-body p-0">
               <div className="divide-y divide-[var(--color-border-light)]">
-                {interventions?.map((i: any) => (
-                  <Link key={i.id} href={`/interventions/${i.id}/edit`} className="flex items-center gap-4 p-4 hover:bg-[var(--color-surface)] transition-colors">
-                    <div className="w-12 h-12 rounded-xl bg-[var(--color-accent-light)] flex flex-col items-center justify-center text-[var(--color-accent)]">
-                      <Calendar className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-start">
-                        <div className="font-bold truncate">{i.description}</div>
-                        <div className="font-black ml-2">{formatCurrency(i.montant)}</div>
+                {interventions?.map((i: any) => {
+                  const badgeColors: Record<string, string> = {
+                    'a-planifier': 'neutral',
+                    'planifiee': 'primary',
+                    'en-cours': 'warning',
+                    'terminee': 'success',
+                    'facturee': 'info',
+                    'annulee': 'danger',
+                  }
+                  return (
+                    <Link key={i.id} href={`/interventions/${i.id}/edit`} className="flex items-center gap-4 p-5 hover:bg-[var(--color-surface)] transition-all group">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-light)] flex flex-col items-center justify-center text-[var(--color-accent)] shadow-sm group-hover:shadow-md transition-all">
+                        <Calendar className="w-5 h-5" />
                       </div>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-muted">
-                        <span>{formatDate(i.date)}</span>
-                        <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
-                        <span className="capitalize">{i.statut}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-start">
+                          <div className="font-bold truncate group-hover:text-[var(--color-accent)] transition-colors">{i.description || 'Intervention'}</div>
+                          <div className="font-bold ml-2">{formatCurrency(i.montant)}</div>
+                        </div>
+                        <div className="flex items-center gap-3 mt-1 text-xs">
+                          <span className="text-secondary font-medium">{formatDate(i.date)}</span>
+                          <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                          <span className={`badge badge-${badgeColors[i.statut]} text-[9px]`}>{i.statut}</span>
+                        </div>
                       </div>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted" />
-                  </Link>
-                ))}
+                      <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
+                    </Link>
+                  )
+                })}
                 {documents?.map((d: any) => (
-                  <Link key={d.id} href={`/documents/${d.id}`} className="flex items-center gap-4 p-4 hover:bg-[var(--color-surface)] transition-colors">
-                    <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center ${d.type === 'facture' ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'}`}>
+                  <Link key={d.id} href={`/documents/${d.id}`} className="flex items-center gap-4 p-5 hover:bg-[var(--color-surface)] transition-all group">
+                    <div className={`w-10 h-10 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:shadow-md transition-all ${d.type === 'facture' ? 'bg-[var(--color-success-light)] text-[var(--color-success)]' : 'bg-[var(--color-primary-light)] text-[var(--color-primary)]'}`}>
                       <FileText className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start">
-                        <div className="font-bold truncate">{d.type === 'facture' ? 'Facture' : 'Devis'} {d.numero}</div>
-                        <div className="font-black ml-2">{formatCurrency(d.total_ttc)}</div>
+                        <div className="font-bold truncate group-hover:text-[var(--color-accent)] transition-colors">{d.type === 'facture' ? 'Facture' : 'Devis'} {d.numero}</div>
+                        <div className="font-bold ml-2">{formatCurrency(d.total_ttc)}</div>
                       </div>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-muted">
-                        <span>{formatDate(d.date_emission)}</span>
+                      <div className="flex items-center gap-3 mt-1 text-xs">
+                        <span className="text-secondary font-medium">{formatDate(d.date_emission)}</span>
                         <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
-                        <span className="capitalize">{d.statut}</span>
+                        <span className="capitalize text-secondary">{d.statut}</span>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-muted" />
+                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
                   </Link>
                 ))}
               </div>

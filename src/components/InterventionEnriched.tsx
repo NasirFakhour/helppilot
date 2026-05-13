@@ -92,17 +92,20 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
   return (
     <div className="space-y-6">
       {/* Quick Actions Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)]">
-        <div className="flex items-center gap-3">
-          <div className={`w-3 h-3 rounded-full bg-${statusColors[iv.statut] || 'primary'}`}></div>
-          <span className="font-black uppercase tracking-widest text-xs">Statut : {iv.statut}</span>
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className={`w-3.5 h-3.5 rounded-full bg-[var(--color-${statusColors[iv.statut] || 'primary'})] ring-4 ring-[var(--color-${statusColors[iv.statut] || 'primary'}-light)]`}></div>
+          <div>
+            <span className="block text-[10px] font-bold text-muted uppercase tracking-widest leading-none mb-1">Statut actuel</span>
+            <span className="font-bold text-sm capitalize">{iv.statut}</span>
+          </div>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
           {iv.statut !== 'terminee' && iv.statut !== 'facturee' && (
             <button 
               onClick={() => setIsClosing(true)}
-              className="btn btn-success btn-sm"
+              className="btn btn-success btn-sm flex-1 sm:flex-none shadow-sm"
             >
               <CheckCircle2 className="w-4 h-4 mr-2" />
               Clôturer la mission
@@ -111,7 +114,7 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
           {iv.statut === 'terminee' && (
             <button 
               onClick={handleInvoice}
-              className="btn btn-primary btn-sm"
+              className="btn btn-primary btn-sm flex-1 sm:flex-none shadow-glow"
               disabled={loading}
             >
               <Package className="w-4 h-4 mr-2" />
@@ -157,11 +160,11 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
 
               <div className="form-group">
                 <label className="form-label">Priorité</label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {['basse', 'normale', 'haute', 'urgente'].map(p => (
-                    <label key={p} className={`flex-1 text-center p-2 rounded-xl border-2 cursor-pointer transition-all ${iv.priorite === p ? 'border-primary bg-primary/5 font-bold' : 'border-[var(--color-border)] hover:bg-[var(--color-surface)]'}`}>
+                    <label key={p} className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all ${iv.priorite === p ? 'border-[var(--color-accent)] bg-[var(--color-accent-light)] font-bold' : 'border-[var(--color-border)] hover:bg-[var(--color-surface)]'}`}>
                       <input type="radio" name="priorite" value={p} defaultChecked={iv.priorite === p} className="hidden" />
-                      {p}
+                      <span className="text-[11px] uppercase tracking-wider">{p}</span>
                     </label>
                   ))}
                 </div>
@@ -244,17 +247,17 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
 
         <div className="space-y-6">
           {/* Mobile Quick Actions Card */}
-          <div className="card bg-accent text-white border-none shadow-lg shadow-accent/20">
+          <div className="card bg-[var(--color-brand)] text-white border-none shadow-lg shadow-[var(--color-accent-glow)]">
             <div className="card-body p-6 space-y-4">
-              <h4 className="font-black text-lg">Actions terrain</h4>
+              <h4 className="font-bold text-lg">Actions terrain</h4>
               <div className="grid grid-cols-2 gap-3">
-                <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10">
-                  <Camera className="w-6 h-6 mb-2" />
-                  <span className="text-[10px] font-black uppercase">Photos</span>
+                <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10 group">
+                  <Camera className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider">Photos</span>
                 </button>
-                <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10">
-                  <PenTool className="w-6 h-6 mb-2" />
-                  <span className="text-[10px] font-black uppercase">Signature</span>
+                <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10 group">
+                  <PenTool className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider">Signature</span>
                 </button>
               </div>
             </div>
@@ -292,10 +295,10 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
               <button onClick={() => setIsClosing(false)} className="p-2"><X className="w-5 h-5" /></button>
             </div>
             <div className="card-body space-y-6">
-              <div className="p-4 bg-warning/10 rounded-2xl border border-warning/20 flex gap-3">
-                <AlertCircle className="w-5 h-5 text-warning" />
-                <p className="text-sm text-warning-dark font-medium">
-                  Vérifiez vos notes techniques et le matériel utilisé avant de valider.
+              <div className="p-4 bg-[var(--color-warning-light)] rounded-2xl border border-[var(--color-warning)]/20 flex gap-3">
+                <AlertCircle className="w-5 h-5 text-[var(--color-warning)] flex-shrink-0" />
+                <p className="text-sm text-secondary">
+                  Vérifiez vos notes techniques et le matériel utilisé avant de valider définitivement.
                 </p>
               </div>
               <div className="form-group">

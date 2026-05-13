@@ -63,10 +63,10 @@ export default function SettingsPage() {
 
   return (
     <div className="animate-fade-in max-w-3xl mx-auto">
-      <div className="page-header">
+      <div className="page-header mb-8">
         <div className="page-header-left">
-          <h1>Paramètres</h1>
-          <p>Gérez votre compte et vos informations professionnelles</p>
+          <h1 className="text-3xl font-bold tracking-tight">Paramètres</h1>
+          <p className="text-secondary">Gérez votre compte et vos informations professionnelles</p>
         </div>
       </div>
 
@@ -130,13 +130,13 @@ export default function SettingsPage() {
 
             <div className="form-group">
               <label className="form-label" htmlFor="signature">Signature des documents / Mentions légales</label>
-              <textarea id="signature" name="signature" rows={4} className="form-control" defaultValue={profile?.signature || ''} placeholder="Vos informations légales complètes..."></textarea>
-              <p className="form-hint">Ces informations apparaîtront au bas de vos rapports et documents.</p>
+              <textarea id="signature" name="signature" rows={4} className="form-control leading-relaxed" defaultValue={profile?.signature || ''} placeholder="Vos informations légales (SIRET, Capital, TVA intra...)"></textarea>
+              <p className="form-hint mt-2">Ces informations apparaîtront au bas de vos rapports et documents PDF.</p>
             </div>
           </div>
           
-          <div className="card-footer flex justify-end">
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+          <div className="card-footer flex justify-end bg-[var(--color-surface)]">
+            <button type="submit" className="btn btn-primary shadow-glow" disabled={loading}>
               <Save className="w-4 h-4 mr-2" />
               {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
             </button>
@@ -164,25 +164,25 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
-          <div className="card-footer flex justify-end">
-            <button type="submit" className="btn btn-primary" disabled={passwordLoading}>
-              <Save className="w-4 h-4 mr-2" />
+          <div className="card-footer flex justify-end bg-[var(--color-surface)]">
+            <button type="submit" className="btn btn-secondary border-[var(--color-border)] shadow-sm" disabled={passwordLoading}>
+              <Lock className="w-4 h-4 mr-2" />
               {passwordLoading ? 'Mise à jour...' : 'Modifier le mot de passe'}
             </button>
           </div>
         </div>
       </form>
 
-      <div className="mt-8 mb-20">
-        <div className="card border-primary/20 bg-primary/[0.02]">
-          <div className="card-header">
-            <h3 className="card-title flex items-center gap-2">
-              <Info className="w-4 h-4 text-primary" />
+      <div className="mt-12 mb-20">
+        <div className="card border-[var(--color-accent)]/20 bg-[var(--color-accent-light)] shadow-md">
+          <div className="card-header border-b-[var(--color-accent)]/10">
+            <h3 className="card-title flex items-center gap-2 text-[var(--color-accent)]">
+              <Info className="w-4 h-4" />
               Espace Démonstration
             </h3>
           </div>
           <div className="card-body">
-            <p className="text-sm text-muted mb-6">
+            <p className="text-sm text-secondary leading-relaxed mb-8">
               Vous préparez une démo ? Vous pouvez peupler votre compte avec des clients, interventions et documents fictifs pour tester toutes les fonctionnalités V1 (Planning, Dashboard, Relances).
             </p>
             <div className="flex justify-center">
@@ -196,7 +196,7 @@ export default function SettingsPage() {
                     window.location.href = '/dashboard'
                   }
                 }}
-                className="btn btn-primary"
+                className="btn btn-primary shadow-glow px-8"
               >
                 Générer les données de démo
               </button>
