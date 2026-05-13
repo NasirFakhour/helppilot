@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
-import { ArrowLeft, Trash2, Edit } from 'lucide-react'
+import { ArrowLeft, Trash2, Edit, MapPin, Phone } from 'lucide-react'
 import { formatCurrency, formatDate, fullName } from '@/lib/utils'
 import { PdfGenerator } from '@/components/PdfGenerator'
 
