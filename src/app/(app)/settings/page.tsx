@@ -172,6 +172,38 @@ export default function SettingsPage() {
           </div>
         </div>
       </form>
+
+      <div className="mt-8 mb-20">
+        <div className="card border-primary/20 bg-primary/[0.02]">
+          <div className="card-header">
+            <h3 className="card-title flex items-center gap-2">
+              <Info className="w-4 h-4 text-primary" />
+              Espace Démonstration
+            </h3>
+          </div>
+          <div className="card-body">
+            <p className="text-sm text-muted mb-6">
+              Vous préparez une démo ? Vous pouvez peupler votre compte avec des clients, interventions et documents fictifs pour tester toutes les fonctionnalités V1 (Planning, Dashboard, Relances).
+            </p>
+            <div className="flex justify-center">
+              <button 
+                onClick={async () => {
+                  const { generateDemoData } = await import('@/app/(app)/actions')
+                  const res = await generateDemoData()
+                  if (res?.error) toast.error(res.error)
+                  else {
+                    toast.success('Données de démonstration générées !')
+                    window.location.href = '/dashboard'
+                  }
+                }}
+                className="btn btn-primary"
+              >
+                Générer les données de démo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
