@@ -1,13 +1,14 @@
 'use client'
 
-import { updateSettings } from '@/app/(app)/actions'
+import { updateSettings, updatePassword } from '@/app/(app)/actions'
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
-import { Save, User, Shield, Info } from 'lucide-react'
+import { Save, User, Shield, Info, Lock } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false)
+  const [passwordLoading, setPasswordLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [profile, setProfile] = useState<any>(null)
@@ -36,6 +37,19 @@ export default function SettingsPage() {
       toast.success('Paramètres enregistrés avec succès')
     }
     setLoading(false)
+  }
+  async function handlePasswordSubmit(formData: FormData) {
+    setPasswordLoading(true)
+    const result = await updatePassword(formData)
+    if (result?.error) {
+      toast.error(result.error)
+    } else {
+      toast.success('Mot de passe mis à jour avec succès')
+      // Clear inputs
+      const form = document.getElementById('password-form') as HTMLFormElement
+      if (form) form.reset()
+    }
+    setPasswordLoading(false)
   }
 
   if (initialLoading) {
@@ -125,6 +139,35 @@ export default function SettingsPage() {
             <button type="submit" className="btn btn-primary" disabled={loading}>
               <Save className="w-4 h-4 mr-2" />
               {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form id="password-form" action={handlePasswordSubmit} className="mt-8">
+        <div className="card">
+          <div className="card-header">
+            <h3 className="card-title flex items-center gap-2">
+              <Lock className="w-4 h-4 text-primary" />
+              Sécurité
+            </h3>
+          </div>
+          <div className="card-body space-y-6">
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label" htmlFor="password">Nouveau mot de passe</label>
+                <input type="password" id="password" name="password" className="form-control" placeholder="••••••••" required minLength={6} />
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="confirmPassword">Confirmer le mot de passe</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" placeholder="••••••••" required minLength={6} />
+              </div>
+            </div>
+          </div>
+          <div className="card-footer flex justify-end">
+            <button type="submit" className="btn btn-primary" disabled={passwordLoading}>
+              <Save className="w-4 h-4 mr-2" />
+              {passwordLoading ? 'Mise à jour...' : 'Modifier le mot de passe'}
             </button>
           </div>
         </div>

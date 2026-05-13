@@ -154,6 +154,29 @@ export async function updateSettings(formData: FormData) {
   return { success: true }
 }
 
+export async function updatePassword(formData: FormData) {
+  const supabase = await createClient()
+  const password = formData.get('password') as string
+  const confirmPassword = formData.get('confirmPassword') as string
+
+  if (password !== confirmPassword) {
+    return { error: 'Les mots de passe ne correspondent pas' }
+  }
+
+  if (password.length < 6) {
+    return { error: 'Le mot de passe doit faire au moins 6 caractères' }
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: password
+  })
+
+  if (error) return { error: error.message }
+  
+  return { success: true }
+}
+
+
 export async function generateDemoData() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
