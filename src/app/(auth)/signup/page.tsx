@@ -24,10 +24,9 @@ export default function SignupPage() {
     <div className="login-card">
       <div className="login-logo">
         <svg width="48" height="48" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="120" height="120" rx="24" fill="#6366F1"/>
-          <path d="M35 38H85C86.6569 38 88 39.3431 88 41V44C88 45.6569 86.6569 47 85 47H35C33.3431 47 32 45.6569 32 44V41C32 39.3431 33.3431 38 35 38Z" fill="white"/>
-          <path d="M55 47H65V85C65 87.7614 62.7614 90 60 90V90C57.2386 90 55 87.7614 55 85V47Z" fill="white"/>
-          <circle cx="78" cy="56" r="6" fill="#1E293B"/>
+          <rect width="120" height="120" rx="36" fill="#1e293b"/>
+          <path d="M38 46C38 42.6863 40.6863 40 44 40H76C79.3137 40 82 42.6863 82 46V50C82 53.3137 79.3137 56 76 56H64V80C64 83.3137 61.3137 86 58 86H56C52.6863 86 50 83.3137 50 80V56H44C40.6863 56 38 53.3137 38 50V46Z" fill="white"/>
+          <circle cx="78" cy="72" r="7" fill="white"/>
         </svg>
         <span className="login-logo-text">TechniSuivi</span>
       </div>
