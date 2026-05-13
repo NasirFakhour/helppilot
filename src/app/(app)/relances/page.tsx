@@ -9,13 +9,20 @@ export default async function RelancesPage() {
   const { data: interventions } = await supabase
     .from('interventions')
     .select('*, clients(*)')
-    .eq('statut', 'terminee')
+    .in('statut', ['terminee', 'facturee'])
     .in('statut_paiement', ['non-paye', 'en-attente'])
     .order('updated_at', { ascending: true })
 
+  const { data: overdueInvoices } = await supabase
+    .from('documents')
+    .select('*, clients(*)')
+    .eq('type', 'facture')
+    .eq('statut', 'envoye')
+    .lt('date_echeance', new Date().toISOString())
+
   const now = new Date()
   
-  const relances = (interventions || []).map((i: any) => {
+  const relancesInterventions = (interventions || []).map((i: any) => {
     const dateToCompare = i.updated_at || i.date
     const days = Math.floor((now.getTime() - new Date(dateToCompare).getTime()) / (1000 * 60 * 60 * 24))
     
@@ -25,8 +32,22 @@ export default async function RelancesPage() {
     else if (days >= 14) { type = 'J+14'; urgency = 2 }
     else if (days >= 7) { type = 'J+7'; urgency = 1 }
     
-    return { ...i, daysPassed: days, relanceType: type, urgency }
-  }).filter(i => i.relanceType !== null).sort((a, b) => b.urgency - a.urgency)
+    return { ...i, relanceSource: 'intervention', daysPassed: days, relanceType: type, urgency }
+  }).filter(i => i.relanceType !== null)
+
+  const relancesInvoices = (overdueInvoices || []).map((inv: any) => {
+    const days = Math.floor((now.getTime() - new Date(inv.date_echeance).getTime()) / (1000 * 60 * 60 * 24))
+    return { 
+      ...inv, 
+      relanceSource: 'invoice', 
+      montant: inv.total_ttc, 
+      description: `Facture ${inv.numero}`,
+      relanceType: `Retard J+${days}`,
+      urgency: 4 
+    }
+  })
+
+  const relances = [...relancesInterventions, ...relancesInvoices].sort((a, b) => b.urgency - a.urgency)
 
   const pendingPayments = relances.reduce((acc: number, i: any) => acc + (i.montant || 0), 0)
 

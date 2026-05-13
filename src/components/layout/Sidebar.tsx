@@ -37,6 +37,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
   const navItems = [
     { href: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
+    { href: '/planning', label: 'Planning', icon: CalendarDays },
     { href: '/clients', label: 'Clients', icon: Users },
     { href: '/interventions', label: 'Interventions', icon: CalendarDays },
     { href: '/documents', label: 'Devis & Factures', icon: FileText },

@@ -22,7 +22,8 @@ export interface Client {
   updated_at: string
 }
 
-export type InterventionStatut = 'planifiee' | 'en-cours' | 'terminee' | 'annulee'
+export type InterventionStatut = 'a-planifier' | 'planifiee' | 'en-cours' | 'terminee' | 'facturee' | 'annulee'
+export type InterventionPriorite = 'basse' | 'normale' | 'haute' | 'urgente'
 export type PaiementStatut = 'non-paye' | 'en-attente' | 'paye'
 
 export interface Intervention {
@@ -36,8 +37,14 @@ export interface Intervention {
   adresse?: string | null
   montant?: number | null
   statut: InterventionStatut
+  priorite: InterventionPriorite
   statut_paiement: PaiementStatut
   notes?: string | null
+  notes_technicien?: string | null
+  materiel?: any[] | null
+  photos?: any[] | null
+  signature_client?: string | null
+  historique?: any[] | null
   created_at: string
   updated_at: string
   

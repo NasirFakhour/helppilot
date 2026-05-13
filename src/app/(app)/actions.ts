@@ -72,8 +72,11 @@ export async function createIntervention(formData: FormData) {
     description: formData.get('description') as string,
     montant: parseFloat(formData.get('montant') as string) || 0,
     statut: formData.get('statut') as string,
+    priorite: formData.get('priorite') as string || 'normale',
     statut_paiement: formData.get('statut_paiement') as string,
     notes: formData.get('notes') as string,
+    notes_technicien: formData.get('notes_technicien') as string,
+    materiel: formData.get('materiel') ? JSON.parse(formData.get('materiel') as string) : [],
   }
 
   const { error } = await supabase.from('interventions').insert(data)
@@ -95,8 +98,11 @@ export async function updateIntervention(id: string, formData: FormData) {
     description: formData.get('description') as string,
     montant: parseFloat(formData.get('montant') as string) || 0,
     statut: formData.get('statut') as string,
+    priorite: formData.get('priorite') as string || 'normale',
     statut_paiement: formData.get('statut_paiement') as string,
     notes: formData.get('notes') as string,
+    notes_technicien: formData.get('notes_technicien') as string,
+    materiel: formData.get('materiel') ? JSON.parse(formData.get('materiel') as string) : [],
     updated_at: new Date().toISOString()
   }
 
@@ -115,6 +121,86 @@ export async function deleteIntervention(id: string) {
   revalidatePath('/dashboard')
   revalidatePath('/interventions')
   redirect('/interventions')
+}
+
+export async function closeIntervention(id: string, notes_technicien: string, materiel: any[]) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('interventions').update({
+    statut: 'terminee',
+    notes_technicien,
+    materiel,
+    updated_at: new Date().toISOString()
+  }).eq('id', id)
+  
+  if (error) return { error: error.message }
+  
+  revalidatePath('/dashboard')
+  revalidatePath('/interventions')
+  revalidatePath(`/interventions/${id}/edit`)
+  return { success: true }
+}
+
+export async function convertToIntervention(documentId: string) {
+  const supabase = await createClient()
+  const { data: doc } = await supabase.from('documents').select('*, clients(*)').eq('id', documentId).single()
+  if (!doc) return { error: 'Document introuvable' }
+
+  const interventionData = {
+    user_id: doc.user_id,
+    client_id: doc.client_id,
+    description: `Suite au devis ${doc.numero}`,
+    montant: doc.total_ttc,
+    statut: 'a-planifier',
+    statut_paiement: 'non-paye',
+    notes: doc.notes
+  }
+
+  const { data: iv, error } = await supabase.from('interventions').insert(interventionData).select().single()
+  if (error) return { error: error.message }
+
+  await supabase.from('documents').update({ intervention_id: iv.id, statut: 'accepte' }).eq('id', documentId)
+
+  revalidatePath('/interventions')
+  revalidatePath('/documents')
+  return { success: true, interventionId: iv.id }
+}
+
+export async function convertToInvoice(interventionId: string) {
+  const supabase = await createClient()
+  const { data: iv } = await supabase.from('interventions').select('*, clients(*)').eq('id', interventionId).single()
+  if (!iv) return { error: 'Intervention introuvable' }
+
+  // Check if invoice already exists
+  const { data: existing } = await supabase.from('documents').select('id').eq('intervention_id', interventionId).eq('type', 'facture').single()
+  if (existing) return { error: 'Une facture existe déjà pour cette intervention' }
+
+  // Get next invoice number
+  const { data: lastDoc } = await supabase.from('documents').select('numero').eq('type', 'facture').order('numero', { ascending: false }).limit(1).single()
+  const nextNum = lastDoc ? `FAC-${parseInt(lastDoc.numero.split('-')[1]) + 1}` : 'FAC-1001'
+
+  const invoiceData = {
+    user_id: iv.user_id,
+    client_id: iv.client_id,
+    intervention_id: iv.id,
+    type: 'facture',
+    numero: nextNum,
+    date_emission: new Date().toISOString(),
+    statut: 'brouillon',
+    total_ht: iv.montant ? iv.montant / 1.2 : 0,
+    tva_taux: 20,
+    total_ttc: iv.montant || 0,
+    notes: iv.description
+  }
+
+  const { data: inv, error } = await supabase.from('documents').insert(invoiceData).select().single()
+  if (error) return { error: error.message }
+
+  // Update intervention status
+  await supabase.from('interventions').update({ statut: 'facturee' }).eq('id', interventionId)
+
+  revalidatePath('/interventions')
+  revalidatePath('/documents')
+  return { success: true, invoiceId: inv.id }
 }
 
 export async function markRelanceSent(id: string) {
@@ -203,10 +289,10 @@ export async function generateDemoData() {
   const setTime = (d: Date, h: number, m=0) => { const r = new Date(d); r.setHours(h, m, 0, 0); return r; }
 
   const ivs = [
-    { user_id: user.id, client_id: clients[0].id, date: setTime(today, 14, 0).toISOString(), heure: '14:00', description: 'Mise à jour logiciel de caisse', montant: 65, statut: 'planifiee', statut_paiement: 'non-paye' },
-    { user_id: user.id, client_id: clients[2].id, date: setTime(today, 10, 30).toISOString(), heure: '10:30', description: 'Audit sécurité réseau', montant: 150, statut: 'planifiee', statut_paiement: 'non-paye' },
-    { user_id: user.id, client_id: clients[1].id, date: setTime(subDays(today, 10), 15, 0).toISOString(), heure: '15:00', description: 'Installation nouvelle Box internet', montant: 80, statut: 'terminee', statut_paiement: 'non-paye', updated_at: subDays(today, 10).toISOString() },
-    { user_id: user.id, client_id: clients[0].id, date: setTime(subDays(today, 25), 11, 0).toISOString(), heure: '11:00', description: 'Dépannage imprimante', montant: 45, statut: 'terminee', statut_paiement: 'non-paye', updated_at: subDays(today, 25).toISOString() },
+    { user_id: user.id, client_id: clients[0].id, date: setTime(today, 14, 0).toISOString(), heure: '14:00', description: 'Mise à jour logiciel de caisse', montant: 65, statut: 'planifiee', priorite: 'normale', statut_paiement: 'non-paye' },
+    { user_id: user.id, client_id: clients[2].id, date: setTime(today, 10, 30).toISOString(), heure: '10:30', description: 'Audit sécurité réseau', montant: 150, statut: 'planifiee', priorite: 'urgente', statut_paiement: 'non-paye' },
+    { user_id: user.id, client_id: clients[1].id, date: setTime(subDays(today, 10), 15, 0).toISOString(), heure: '15:00', description: 'Installation nouvelle Box internet', montant: 80, statut: 'terminee', priorite: 'normale', statut_paiement: 'non-paye', updated_at: subDays(today, 10).toISOString() },
+    { user_id: user.id, client_id: clients[0].id, date: setTime(subDays(today, 25), 11, 0).toISOString(), heure: '11:00', description: 'Dépannage imprimante', montant: 45, statut: 'facturee', priorite: 'basse', statut_paiement: 'non-paye', updated_at: subDays(today, 25).toISOString() },
   ]
 
   const { error: ivErr } = await supabase.from('interventions').insert(ivs)

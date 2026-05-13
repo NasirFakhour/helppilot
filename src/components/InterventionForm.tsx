@@ -56,21 +56,32 @@ export function InterventionForm({ clients, defaultClient }: { clients: any[], d
           <input type="text" id="description" name="description" className="form-control" required placeholder="Ex: Nettoyage PC, Installation Box..." />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="form-group col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="form-group">
             <label className="form-label" htmlFor="montant">Montant (€)</label>
             <input type="number" step="0.01" id="montant" name="montant" className="form-control" placeholder="0.00" />
           </div>
-          <div className="form-group col-span-1">
-            <label className="form-label" htmlFor="statut">Statut</label>
-            <select id="statut" name="statut" className="form-control">
-              <option value="planifiee">Planifiée (À faire)</option>
-              <option value="en-cours">En cours</option>
-              <option value="terminee">Terminée</option>
-              <option value="annulee">Annulée</option>
+          <div className="form-group">
+            <label className="form-label" htmlFor="priorite">Priorité</label>
+            <select id="priorite" name="priorite" className="form-control" defaultValue="normale">
+              <option value="basse">Basse</option>
+              <option value="normale">Normale</option>
+              <option value="haute">Haute</option>
+              <option value="urgente">Urgente 🚨</option>
             </select>
           </div>
-          <div className="form-group col-span-1">
+          <div className="form-group">
+            <label className="form-label" htmlFor="statut">Statut</label>
+            <select id="statut" name="statut" className="form-control">
+              <option value="a-planifier">À planifier</option>
+              <option value="planifiee">Planifiée</option>
+              <option value="en-cours">En cours ⚡</option>
+              <option value="terminee">Terminée ✅</option>
+              <option value="facturee">Facturée 📄</option>
+              <option value="annulee">Annulée ❌</option>
+            </select>
+          </div>
+          <div className="form-group">
             <label className="form-label" htmlFor="statut_paiement">Paiement</label>
             <select id="statut_paiement" name="statut_paiement" className="form-control">
               <option value="non-paye">Non réglé</option>
