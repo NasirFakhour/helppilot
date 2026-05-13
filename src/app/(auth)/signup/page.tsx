@@ -23,43 +23,47 @@ export default function SignupPage() {
   return (
     <div className="login-card">
       <div className="login-logo">
-        <svg width="40" height="40" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="120" height="120" rx="24" fill="#1E293B"/>
+        <svg width="48" height="48" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="120" height="120" rx="24" fill="#6366F1"/>
           <path d="M35 38H85C86.6569 38 88 39.3431 88 41V44C88 45.6569 86.6569 47 85 47H35C33.3431 47 32 45.6569 32 44V41C32 39.3431 33.3431 38 35 38Z" fill="white"/>
           <path d="M55 47H65V85C65 87.7614 62.7614 90 60 90V90C57.2386 90 55 87.7614 55 85V47Z" fill="white"/>
-          <circle cx="78" cy="56" r="6" fill="#818CF8"/>
+          <circle cx="78" cy="56" r="6" fill="#1E293B"/>
         </svg>
         <span className="login-logo-text">TechniSuivi</span>
       </div>
       
-      <h1 className="login-title">Créer un compte</h1>
-      <p className="login-subtitle">Rejoignez TechniSuivi gratuitement</p>
+      <div className="text-center mb-8">
+        <h1 className="login-title">Rejoignez-nous</h1>
+        <p className="login-subtitle">L'outil indispensable pour votre activité de technicien</p>
+      </div>
       
-      <form action={handleSubmit} className="flex flex-col gap-4">
+      <form action={handleSubmit} className="flex flex-col gap-5">
         {error && (
-          <div className="p-3 mb-2 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg">
+          <div className="p-4 mb-2 text-sm text-red-200 bg-red-500/20 border border-red-500/30 rounded-xl backdrop-blur-sm animate-fade-in">
             {error}
           </div>
         )}
         
         <div className="form-group">
-          <label className="form-label" htmlFor="email">Email</label>
+          <label className="form-label text-white/70" htmlFor="email">Email professionnel</label>
           <input 
             type="email" 
             id="email" 
             name="email" 
-            className="form-control" 
+            className="form-control bg-white/5 border-white/10 text-white focus:bg-white/10" 
+            placeholder="votre@email.com"
             required 
           />
         </div>
         
-        <div className="form-group mb-4">
-          <label className="form-label" htmlFor="password">Mot de passe</label>
+        <div className="form-group">
+          <label className="form-label text-white/70" htmlFor="password">Mot de passe</label>
           <input 
             type="password" 
             id="password" 
             name="password" 
-            className="form-control" 
+            className="form-control bg-white/5 border-white/10 text-white focus:bg-white/10" 
+            placeholder="Minimum 6 caractères"
             required 
             minLength={6}
           />
@@ -67,19 +71,30 @@ export default function SignupPage() {
         
         <button 
           type="submit" 
-          className="btn btn-primary w-full btn-lg" 
+          className="btn btn-primary w-full btn-lg mt-2 h-12 shadow-lg shadow-indigo-500/20" 
           disabled={loading}
         >
-          <UserPlus className="w-5 h-5 mr-2" />
-          {loading ? 'Création en cours...' : "S'inscrire"}
+          {loading ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              Création...
+            </div>
+          ) : (
+            <>
+              <UserPlus className="w-5 h-5 mr-2" />
+              S'inscrire gratuitement
+            </>
+          )}
         </button>
       </form>
 
-      <div className="text-center mt-6 text-sm text-[rgba(255,255,255,0.5)]">
-        Déjà un compte ?{' '}
-        <Link href="/login" className="text-white hover:underline font-medium">
-          Se connecter
-        </Link>
+      <div className="text-center mt-8 pt-6 border-t border-white/5">
+        <p className="text-sm text-white/40">
+          Vous avez déjà un compte ?{' '}
+          <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
+            Se connecter
+          </Link>
+        </p>
       </div>
     </div>
   )
