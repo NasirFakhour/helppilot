@@ -58,51 +58,60 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
     return initialInterventions.filter(i => isSameDay(parseISO(i.date), day))
   }
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      'a-planifier': 'bg-[var(--color-text-muted)]',
-      'planifiee': 'bg-[var(--color-accent)]',
-      'en-cours': 'bg-[var(--color-warning)]',
-      'terminee': 'bg-[var(--color-success)]',
-      'facturee': 'bg-[var(--color-info)]',
-      'annulee': 'bg-[var(--color-danger)]'
+  const getStatusStyles = (status: string) => {
+    const styles: Record<string, { bg: string, border: string, text: string }> = {
+      'a-planifier': { bg: 'bg-slate-500', border: 'border-slate-400', text: 'text-white' },
+      'planifiee':   { bg: 'bg-indigo-600', border: 'border-indigo-400', text: 'text-white' },
+      'en-cours':    { bg: 'bg-amber-500',  border: 'border-amber-300',  text: 'text-white' },
+      'terminee':    { bg: 'bg-emerald-600', border: 'border-emerald-400', text: 'text-white' },
+      'facturee':    { bg: 'bg-sky-600',     border: 'border-sky-400',     text: 'text-white' },
+      'annulee':     { bg: 'bg-rose-600',    border: 'border-rose-400',    text: 'text-white' }
     }
-    return colors[status] || 'bg-gray-500'
+    return styles[status] || styles['a-planifier']
   }
 
   const getPriorityIcon = (priority: string) => {
-    if (priority === 'urgente' || priority === 'haute') return <AlertCircle className="w-3 h-3 text-white" />
+    if (priority === 'urgente' || priority === 'haute') {
+      return (
+        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-white/20 backdrop-blur-md shadow-sm">
+          <AlertCircle className="w-3.5 h-3.5 text-white animate-pulse" />
+        </div>
+      )
+    }
     return null
   }
 
   return (
     <div className="flex flex-col h-full bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] overflow-hidden shadow-sm">
       {/* Calendar Header */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-3 sm:p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)] gap-4">
-        <div className="flex items-center justify-between sm:justify-start gap-4">
-          <div className="flex items-center bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] p-1">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between p-3 sm:p-6 border-b border-[var(--color-border)] bg-[var(--color-surface)] gap-3 sm:gap-4">
+        {/* Date Navigation */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+          <div className="flex items-center w-full sm:w-auto bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-1 shadow-sm">
             <button 
               onClick={() => navigate(-1)}
-              className="p-1.5 hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              className="flex-1 sm:flex-none p-2 hover:bg-[var(--color-surface)] rounded-lg transition-colors text-[var(--color-text-secondary)]"
               aria-label="Précédent"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-5 h-5 mx-auto" />
             </button>
+            <div className="h-4 w-[1px] bg-[var(--color-border)]"></div>
             <button 
               onClick={() => setCurrentDate(new Date())}
-              className="px-3 py-1.5 text-xs sm:text-sm font-bold hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              className="flex-[2] sm:flex-none px-4 py-2 text-xs font-bold hover:bg-[var(--color-surface)] rounded-lg transition-colors text-[var(--color-text)]"
             >
               Aujourd'hui
             </button>
+            <div className="h-4 w-[1px] bg-[var(--color-border)]"></div>
             <button 
               onClick={() => navigate(1)}
-              className="p-1.5 hover:bg-[var(--color-surface)] rounded-md transition-colors"
+              className="flex-1 sm:flex-none p-2 hover:bg-[var(--color-surface)] rounded-lg transition-colors text-[var(--color-text-secondary)]"
               aria-label="Suivant"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5 mx-auto" />
             </button>
           </div>
-          <h2 className="text-sm sm:text-lg font-bold truncate">
+          <h2 className="text-base sm:text-xl font-black tracking-tight text-[var(--color-text)] text-center sm:text-left w-full sm:w-auto truncate px-2">
             {view === 'week' 
               ? `${format(weekStart, 'd MMM', { locale: fr })} - ${format(weekEnd, 'd MMM yyyy', { locale: fr })}`
               : format(currentDate, 'EEEE d MMMM', { locale: fr })
@@ -110,37 +119,38 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
           </h2>
         </div>
 
-        <div className="flex items-center justify-between sm:justify-end gap-2">
-          <div className="flex bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] p-1 flex-1 sm:flex-none">
+        {/* View Selection & Action */}
+        <div className="flex flex-row items-center gap-2">
+          <div className="flex flex-1 sm:flex-none bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-1 shadow-sm">
             <button 
               onClick={() => setView('day')}
-              className={`flex-1 sm:flex-none px-4 py-1.5 text-xs sm:text-sm font-bold rounded-md transition-all ${view === 'day' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
+              className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 text-xs font-bold rounded-lg transition-all ${view === 'day' ? 'bg-[var(--color-accent)] text-white shadow-md' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
             >
               Jour
             </button>
             <button 
               onClick={() => setView('week')}
-              className={`flex-1 sm:flex-none px-4 py-1.5 text-xs sm:text-sm font-bold rounded-md transition-all ${view === 'week' ? 'bg-[var(--color-accent)] text-white shadow-sm' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
+              className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 text-xs font-bold rounded-lg transition-all ${view === 'week' ? 'bg-[var(--color-accent)] text-white shadow-md' : 'hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)]'}`}
             >
               Semaine
             </button>
           </div>
-          <Link href="/interventions/new" className="btn btn-primary btn-sm h-[38px] px-3 sm:px-4">
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Nouveau</span>
+          <Link href="/interventions/new" className="btn btn-primary h-[40px] px-4 rounded-xl shadow-lg shadow-[var(--color-accent-light)] flex-shrink-0">
+            <Plus className="w-5 h-5 sm:mr-1.5" />
+            <span className="hidden sm:inline font-bold">Nouveau</span>
           </Link>
         </div>
       </div>
 
-      {/* Calendar Grid */}
-      <div className="flex-1 overflow-auto relative">
-        <div className={`flex h-full ${view === 'week' ? 'min-w-[800px] sm:min-w-0' : 'min-w-0'}`}>
+      {/* Calendar Grid Container with horizontal scroll for week view */}
+      <div className="flex-1 overflow-auto relative bg-[var(--color-surface)] custom-scrollbar">
+        <div className={`flex h-full ${view === 'week' ? 'min-w-[1000px]' : 'min-w-full'}`}>
           {/* Time Gutter */}
-          <div className="w-14 sm:w-20 flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-20">
-            <div className="h-10 sm:h-12 border-b border-[var(--color-border)]"></div>
+          <div className="w-14 sm:w-24 flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-30 shadow-[4px_0_10px_-4px_rgba(0,0,0,0.05)]">
+            <div className="h-16 border-b border-[var(--color-border)] bg-[var(--color-surface)]"></div>
             {hours.map(hour => (
-              <div key={hour} className="h-20 flex items-start justify-center pt-2">
-                <span className="text-[10px] sm:text-[11px] font-bold text-[var(--color-text-muted)] uppercase">{hour}:00</span>
+              <div key={hour} className="h-[100px] flex items-start justify-center pt-4">
+                <span className="text-[10px] sm:text-xs font-black text-[var(--color-text-muted)] uppercase tracking-wider">{hour}:00</span>
               </div>
             ))}
           </div>
@@ -150,49 +160,59 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
             const dayInterventions = getInterventionsForDay(day)
             
             return (
-              <div key={idx} className="flex-1 min-w-[120px] border-r border-[var(--color-border-light)] relative">
+              <div key={idx} className={`flex-1 min-w-[140px] border-r border-[var(--color-border-light)] relative ${isToday(day) ? 'bg-[var(--color-accent-light)]/10' : ''}`}>
                 {/* Day Header */}
-                <div className={`h-10 sm:h-12 border-b border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-10 ${isToday(day) ? 'bg-[var(--color-accent-light)]' : 'bg-[var(--color-surface)]'}`}>
-                  <span className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-widest ${isToday(day) ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
-                    {format(day, 'EEE', { locale: fr })}
+                <div className={`h-16 border-b border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-20 backdrop-blur-md transition-colors ${isToday(day) ? 'bg-[var(--color-accent-light)]/80 text-[var(--color-accent)]' : 'bg-[var(--color-surface)]/90 text-[var(--color-text)]'}`}>
+                  <span className={`text-[9px] sm:text-[11px] font-black uppercase tracking-widest mb-0.5 ${isToday(day) ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
+                    {format(day, 'EEEE', { locale: fr })}
                   </span>
-                  <span className={`text-xs sm:text-sm font-bold ${isToday(day) ? 'text-[var(--color-accent)]' : ''}`}>
+                  <span className={`text-sm sm:text-lg font-black ${isToday(day) ? 'text-[var(--color-accent)]' : ''}`}>
                     {format(day, 'd')}
                   </span>
                 </div>
 
                 {/* Hour Slots */}
                 {hours.map(hour => (
-                  <div key={hour} className="h-20 border-b border-[var(--color-border-light)] group hover:bg-[var(--color-surface)] transition-colors"></div>
+                  <div key={hour} className="h-[100px] border-b border-[var(--color-border-light)]/50 group hover:bg-[var(--color-accent-light)]/5 transition-colors"></div>
                 ))}
 
                 {/* Intervention Blocks */}
                 {dayInterventions.map(i => {
                   const hour = parseInt(i.heure?.split(':')[0] || '8')
                   const minute = parseInt(i.heure?.split(':')[1] || '0')
-                  const top = ((hour - 8) * 80) + (minute / 60 * 80) + (view === 'week' ? 48 : 40) // Adjustment for header height
-                  const height = (i.duree || 60) / 60 * 80
+                  const hourHeight = 100
+                  const headerHeight = 64
+                  const top = ((hour - 8) * hourHeight) + (minute / 60 * hourHeight) + headerHeight
+                  const height = Math.max((i.duree || 60) / 60 * hourHeight, 70) // Slightly taller min height
+
+                  const styles = getStatusStyles(i.statut)
 
                   return (
                     <Link 
                       key={i.id}
                       href={`/interventions/${i.id}/edit`}
-                      className={`absolute left-1 right-1 rounded-lg p-2 overflow-hidden shadow-sm hover:shadow-md transition-all border-l-4 border-white/20 group animate-slide-up ${getStatusColor(i.statut)}`}
-                      style={{ top: `${top}px`, height: `${height}px`, zIndex: 5 }}
+                      className={`absolute left-2 right-2 rounded-xl p-3 overflow-hidden shadow-md hover:shadow-xl transition-all border-l-[6px] group animate-slide-up flex flex-col justify-between ${styles.bg} ${styles.text} border-white/30 hover:scale-[1.02] active:scale-[0.98]`}
+                      style={{ top: `${top + 4}px`, height: `${height - 8}px`, zIndex: 10 }}
                     >
-                      <div className="flex items-start justify-between gap-1 mb-1">
-                        <span className="text-[10px] font-black text-white/90 uppercase truncate">
-                          {i.heure || 'N/A'}
-                        </span>
-                        {getPriorityIcon(i.priorite)}
+                      <div className="min-w-0">
+                        <div className="flex items-center justify-between gap-1 mb-1.5">
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/10 backdrop-blur-sm">
+                            <Clock className="w-3.5 h-3.5 text-white flex-shrink-0" />
+                            <span className="text-[10px] sm:text-xs font-black text-white uppercase tracking-tighter">
+                              {i.heure || 'N/A'}
+                            </span>
+                          </div>
+                          {getPriorityIcon(i.priorite)}
+                        </div>
+                        <div className="font-extrabold text-xs sm:text-sm text-white truncate sm:line-clamp-2 leading-tight mb-2 drop-shadow-sm">
+                          {fullName(i.clients)}
+                        </div>
                       </div>
-                      <div className="font-bold text-xs text-white line-clamp-2 leading-tight mb-1">
-                        {fullName(i.clients)}
-                      </div>
-                      {height > 40 && (
-                        <div className="flex items-center gap-1 text-[10px] text-white/80 truncate">
-                          <MapPin className="w-3 h-3 flex-shrink-0" />
-                          {i.adresse || i.clients?.ville || 'Sur site'}
+                      
+                      {(height > 85) && (
+                        <div className="flex items-center gap-2 text-[10px] sm:text-xs text-white/90 font-medium truncate mt-auto bg-black/10 p-1.5 rounded-lg backdrop-blur-[2px]">
+                          <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                          <span className="truncate">{i.adresse || i.clients?.ville || 'Sur site'}</span>
                         </div>
                       )}
                     </Link>

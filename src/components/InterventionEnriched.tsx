@@ -96,8 +96,8 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
         <div className="flex items-center gap-4">
           <div className={`w-3.5 h-3.5 rounded-full bg-[var(--color-${statusColors[iv.statut] || 'primary'})] ring-4 ring-[var(--color-${statusColors[iv.statut] || 'primary'}-light)]`}></div>
           <div>
-            <span className="block text-[10px] font-bold text-muted uppercase tracking-widest leading-none mb-1">Statut actuel</span>
-            <span className="font-bold text-sm capitalize">{iv.statut}</span>
+            <span className="block text-xs font-bold text-muted uppercase tracking-widest leading-none mb-1.5">Statut actuel</span>
+            <span className="font-bold text-base capitalize">{iv.statut}</span>
           </div>
         </div>
         
@@ -164,7 +164,7 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
                   {['basse', 'normale', 'haute', 'urgente'].map(p => (
                     <label key={p} className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all ${iv.priorite === p ? 'border-[var(--color-accent)] bg-[var(--color-accent-light)] font-bold' : 'border-[var(--color-border)] hover:bg-[var(--color-surface)]'}`}>
                       <input type="radio" name="priorite" value={p} defaultChecked={iv.priorite === p} className="hidden" />
-                      <span className="text-[11px] uppercase tracking-wider">{p}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider">{p}</span>
                     </label>
                   ))}
                 </div>
@@ -253,11 +253,11 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
               <div className="grid grid-cols-2 gap-3">
                 <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10 group">
                   <Camera className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Photos</span>
+                  <span className="text-xs font-bold uppercase tracking-wider">Photos</span>
                 </button>
                 <button className="flex flex-col items-center justify-center p-4 bg-white/10 rounded-2xl hover:bg-white/20 transition-all border border-white/10 group">
                   <PenTool className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Signature</span>
+                  <span className="text-xs font-bold uppercase tracking-wider">Signature</span>
                 </button>
               </div>
             </div>
@@ -277,7 +277,7 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
                   <div className="w-2 h-2 rounded-full bg-success mt-1.5 flex-shrink-0"></div>
                   <div>
                     <p className="text-xs font-bold">Création de la mission</p>
-                    <p className="text-[10px] text-muted">Aujourd'hui, 10:45</p>
+                    <p className="text-xs text-muted">Aujourd'hui, 10:45</p>
                   </div>
                 </div>
               </div>
