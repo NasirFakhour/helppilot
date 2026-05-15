@@ -144,10 +144,10 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
 
       {/* Calendar Grid Container with horizontal scroll for week view */}
       <div className="flex-1 overflow-auto relative bg-[var(--color-surface)] custom-scrollbar">
-        <div className={`flex h-full ${view === 'week' ? 'min-w-[1000px]' : 'min-w-full'}`}>
+        <div className={`flex h-full ${view === 'week' ? 'min-w-[1200px] lg:min-w-full' : 'min-w-full'}`}>
           {/* Time Gutter */}
-          <div className="w-14 sm:w-24 flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-30 shadow-[4px_0_10px_-4px_rgba(0,0,0,0.05)]">
-            <div className="h-16 border-b border-[var(--color-border)] bg-[var(--color-surface)]"></div>
+          <div className="w-14 sm:w-24 flex-shrink-0 border-r-2 border-[var(--color-border)] bg-[var(--color-surface)] sticky left-0 z-30 shadow-[4px_0_10px_-4px_rgba(0,0,0,0.05)]">
+            <div className="h-16 border-b-2 border-[var(--color-border)] bg-[var(--color-surface)]"></div>
             {hours.map(hour => (
               <div key={hour} className="h-[100px] flex items-start justify-center pt-4">
                 <span className="text-[10px] sm:text-xs font-black text-[var(--color-text-muted)] uppercase tracking-wider">{hour}:00</span>
@@ -160,9 +160,9 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
             const dayInterventions = getInterventionsForDay(day)
             
             return (
-              <div key={idx} className={`flex-1 min-w-[140px] border-r border-[var(--color-border-light)] relative ${isToday(day) ? 'bg-[var(--color-accent-light)]/10' : ''}`}>
+              <div key={idx} className={`flex-1 min-w-[180px] sm:min-w-[140px] border-r-2 border-[var(--color-border)] relative ${isToday(day) ? 'bg-[var(--color-accent-light)]/10' : ''}`}>
                 {/* Day Header */}
-                <div className={`h-16 border-b border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-20 backdrop-blur-md transition-colors ${isToday(day) ? 'bg-[var(--color-accent-light)]/80 text-[var(--color-accent)]' : 'bg-[var(--color-surface)]/90 text-[var(--color-text)]'}`}>
+                <div className={`h-16 border-b-2 border-[var(--color-border)] flex flex-col items-center justify-center sticky top-0 z-20 backdrop-blur-md transition-colors ${isToday(day) ? 'bg-[var(--color-accent-light)]/80 text-[var(--color-accent)]' : 'bg-[var(--color-surface)]/90 text-[var(--color-text)]'}`}>
                   <span className={`text-[9px] sm:text-[11px] font-black uppercase tracking-widest mb-0.5 ${isToday(day) ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
                     {format(day, 'EEEE', { locale: fr })}
                   </span>
@@ -173,7 +173,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
 
                 {/* Hour Slots */}
                 {hours.map(hour => (
-                  <div key={hour} className="h-[100px] border-b border-[var(--color-border-light)]/50 group hover:bg-[var(--color-accent-light)]/5 transition-colors"></div>
+                  <div key={hour} className="h-[100px] border-b border-[var(--color-border)]/60 group hover:bg-[var(--color-accent-light)]/5 transition-colors"></div>
                 ))}
 
                 {/* Intervention Blocks */}
