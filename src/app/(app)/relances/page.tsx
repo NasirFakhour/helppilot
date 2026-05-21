@@ -81,9 +81,9 @@ export default async function RelancesPage() {
           <div className="card-body p-0">
             <div className="divide-y divide-[var(--color-border-light)]">
               {relances.map((r: any) => (
-                <div key={`${r.relanceSource}-${r.id}`} className="relance-item p-6 flex flex-col md:flex-row md:items-center gap-6 hover:bg-[var(--color-surface)] transition-all">
-                  <div className="relance-content flex-1">
-                    <div className="flex items-center gap-2 mb-3">
+                <div key={`${r.relanceSource}-${r.id}`} className="relance-item p-4 sm:p-6 flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 hover:bg-[var(--color-surface)] transition-all">
+                  <div className="relance-content flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
                       <span className={`badge ${r.urgency >= 3 ? 'badge-danger' : r.urgency === 2 ? 'badge-warning' : 'badge-primary'} shadow-sm`}>
                         {r.relanceType}
                       </span>
@@ -94,25 +94,25 @@ export default async function RelancesPage() {
                         <span className="badge badge-info">Facture</span>
                       )}
                     </div>
-                    <div className="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors">{fullName(r.clients)}</div>
-                    <div className="text-sm text-secondary mt-1">
+                    <div className="text-base sm:text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors truncate">{fullName(r.clients)}</div>
+                    <div className="text-xs sm:text-sm text-secondary mt-1 leading-relaxed">
                       {r.relanceSource === 'invoice' ? `Échéance le ${formatDate(r.date_echeance)}` : `Terminée le ${formatDate(r.date)}`} — {r.description}
                     </div>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto">
-                    <div className="text-2xl font-black md:text-right md:min-w-[120px]">
+                  <div className="flex flex-row md:flex-row items-center justify-between md:justify-end gap-4 w-full md:w-auto pt-3 md:pt-0 border-t border-[var(--color-border-light)] md:border-none">
+                    <div className="text-xl sm:text-2xl font-black md:text-right md:min-w-[120px] text-slate-900 dark:text-white">
                       {formatCurrency(r.montant)}
                     </div>
-                    <div className="flex gap-2 flex-1 sm:flex-none">
-                      <form action={markRelanceSent.bind(null, r.id)} className="flex-1 sm:flex-none">
-                        <button type="submit" className="btn btn-secondary w-full" disabled={r.statut_paiement === 'en-attente'}>
+                    <div className="flex gap-2 sm:flex-none">
+                      <form action={markRelanceSent.bind(null, r.id)} className="sm:flex-none">
+                        <button type="submit" className="btn btn-secondary btn-sm md:px-[18px] md:py-[10px] md:text-sm" disabled={r.statut_paiement === 'en-attente'}>
                           <Mail className="w-4 h-4 mr-2" />
                           <span>Relancer</span>
                         </button>
                       </form>
-                      <form action={markAsPaid.bind(null, r.id)} className="flex-1 sm:flex-none">
-                        <button type="submit" className="btn btn-success w-full shadow-sm">
+                      <form action={markAsPaid.bind(null, r.id)} className="sm:flex-none">
+                        <button type="submit" className="btn btn-success btn-sm md:px-[18px] md:py-[10px] md:text-sm shadow-sm">
                           <Check className="w-4 h-4 mr-2" />
                           <span>Payé</span>
                         </button>

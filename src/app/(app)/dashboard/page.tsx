@@ -273,15 +273,15 @@ function InterventionTimelineRow({ intervention: i, isOverdue = false }: { inter
           <div className={`w-3.5 h-3.5 rounded-full mt-1.5 ring-4 ${isOverdue ? 'bg-[var(--color-danger)] ring-[var(--color-danger-light)]' : 'bg-[var(--color-accent)] ring-[var(--color-accent-light)]'}`}></div>
           <div className="w-0.5 flex-1 bg-[var(--color-border-light)] my-2"></div>
         </div>
-        <div className="flex-1 pb-8">
-          <div className="flex justify-between items-start mb-2">
-            <div>
+        <div className="flex-1 pb-8 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+            <div className="min-w-0">
               <span className="text-xs font-bold text-muted uppercase tracking-wider">{formatTime(i.date)}</span>
-              <h4 className="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors leading-tight">{fullName(i.clients)}</h4>
+              <h4 className="text-base sm:text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors leading-tight truncate">{fullName(i.clients)}</h4>
             </div>
-            <div className="text-right">
-              <p className="text-lg font-bold">{formatCurrency(i.montant)}</p>
-              <span className={`badge badge-${badgeColors[i.statut]} mt-1`}>{statusLabels[i.statut]}</span>
+            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 sm:gap-0 mt-1 sm:mt-0">
+              <p className="text-base sm:text-lg font-bold">{formatCurrency(i.montant)}</p>
+              <span className={`badge badge-${badgeColors[i.statut]} mt-0.5 sm:mt-1`}>{statusLabels[i.statut]}</span>
             </div>
           </div>
           <p className="text-sm text-secondary line-clamp-1">{i.description}</p>

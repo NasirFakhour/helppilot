@@ -169,8 +169,9 @@ export function DocumentForm({
             </div>
             
             {lines.map((line, index) => (
-              <div key={line.id} className="flex flex-col md:grid md:grid-cols-12 gap-4 items-start md:items-center bg-[var(--color-surface)] p-4 md:p-2 rounded-lg md:bg-transparent">
+              <div key={line.id} className="flex flex-col md:grid md:grid-cols-12 gap-4 items-start md:items-center bg-[var(--color-surface)] p-4 md:p-2 rounded-xl md:bg-transparent border border-[var(--color-border-light)] md:border-none shadow-sm md:shadow-none mb-4 md:mb-0">
                 <div className="col-span-6 w-full">
+                  <label className="md:hidden text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider mb-1.5 block">Description</label>
                   <input 
                     type="text" 
                     className="form-control" 
@@ -180,32 +181,36 @@ export function DocumentForm({
                     required
                   />
                 </div>
-                <div className="col-span-2 w-full flex items-center gap-2">
-                  <span className="md:hidden text-sm text-muted w-24">Qté:</span>
-                  <input 
-                    type="number" 
-                    min="0.1" 
-                    step="0.1" 
-                    className="form-control" 
-                    value={line.quantite}
-                    onChange={(e) => updateLine(line.id, 'quantite', parseFloat(e.target.value) || 0)}
-                  />
+                
+                <div className="w-full grid grid-cols-2 gap-4 md:contents">
+                  <div className="col-span-1 md:col-span-2 w-full">
+                    <label className="md:hidden text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider mb-1.5 block">Quantité</label>
+                    <input 
+                      type="number" 
+                      min="0.1" 
+                      step="0.1" 
+                      className="form-control" 
+                      value={line.quantite}
+                      onChange={(e) => updateLine(line.id, 'quantite', parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                  <div className="col-span-1 md:col-span-2 w-full">
+                    <label className="md:hidden text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider mb-1.5 block">Prix U. HT (€)</label>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      step="0.01" 
+                      className="form-control" 
+                      value={line.prix_unitaire_ht}
+                      onChange={(e) => updateLine(line.id, 'prix_unitaire_ht', parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
                 </div>
-                <div className="col-span-2 w-full flex items-center gap-2">
-                  <span className="md:hidden text-sm text-muted w-24">Prix U. HT:</span>
-                  <input 
-                    type="number" 
-                    min="0" 
-                    step="0.01" 
-                    className="form-control" 
-                    value={line.prix_unitaire_ht}
-                    onChange={(e) => updateLine(line.id, 'prix_unitaire_ht', parseFloat(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="col-span-2 flex items-center justify-between w-full">
-                  <span className="md:hidden text-sm text-muted">Total HT:</span>
-                  <span className="font-bold">{(line.quantite * line.prix_unitaire_ht).toFixed(2)} €</span>
-                  <button type="button" onClick={() => removeLine(line.id)} className="text-danger p-2 hover:bg-danger/10 rounded" disabled={lines.length === 1}>
+
+                <div className="col-span-2 flex items-center justify-between w-full mt-2 md:mt-0 pt-3 md:pt-0 border-t border-[var(--color-border-light)] md:border-none">
+                  <span className="md:hidden text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Total HT:</span>
+                  <span className="font-bold text-base">{(line.quantite * line.prix_unitaire_ht).toFixed(2)} €</span>
+                  <button type="button" onClick={() => removeLine(line.id)} className="text-danger p-2 hover:bg-danger/10 rounded-xl" disabled={lines.length === 1}>
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

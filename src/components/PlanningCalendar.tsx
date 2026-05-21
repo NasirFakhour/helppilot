@@ -217,7 +217,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
               <div className="w-24 flex-shrink-0 border-r border-slate-200 bg-white sticky left-0 z-30 shadow-2xl shadow-slate-200/50">
                 <div className="h-16 border-b border-slate-200"></div>
                 {hours.map(hour => (
-                  <div key={hour} className="h-[140px] border-b border-slate-100 flex items-start justify-center pt-5">
+                  <div key={hour} className="h-[140px] border-b border-slate-200 flex items-start justify-center pt-5">
                     <span className="text-[11px] font-black text-slate-400 uppercase tracking-tighter">{hour}:00</span>
                   </div>
                 ))}
@@ -227,7 +227,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
               {days.map((day, dIdx) => {
                 const dayIv = getInterventionsForDay(day)
                 return (
-                  <div key={dIdx} className={`flex-1 border-r border-slate-100 relative group ${isToday(day) ? 'bg-indigo-50/40' : 'bg-white'}`}>
+                  <div key={dIdx} className={`flex-1 border-r border-slate-200 relative group ${isToday(day) ? 'bg-indigo-50/40' : 'bg-white'}`}>
                     {/* Header du jour */}
                     <div className={`h-16 border-b-2 flex flex-col items-center justify-center sticky top-0 z-20 backdrop-blur-xl transition-all ${isToday(day) ? 'bg-indigo-600 text-white border-indigo-700 shadow-lg' : 'bg-white/90 text-slate-900 border-slate-200'}`}>
                       <span className={`text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 ${isToday(day) ? 'text-white/80' : 'text-slate-400'}`}>
@@ -239,7 +239,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                     </div>
 
                     {/* Slots horaires */}
-                    {hours.map(h => <div key={h} className="h-[140px] border-b border-slate-50 transition-colors"></div>)}
+                    {hours.map(h => <div key={h} className="h-[140px] border-b border-slate-200 transition-colors"></div>)}
 
                     {/* Cartes d'interventions */}
                     {dayIv.map(iv => {
@@ -322,7 +322,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                       const st = getStatusStyles(iv.statut)
                       return (
                         <Link key={iv.id} href={`/interventions/${iv.id}/edit`} className="group">
-                          <div className="bg-white rounded-[2.5rem] p-6 border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:border-indigo-200 group-active:scale-[0.98] transition-all duration-300 relative overflow-hidden">
+                          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:border-indigo-200 group-active:scale-[0.98] transition-all duration-300 relative overflow-hidden">
                             <div className="flex items-start justify-between mb-6">
                               <div className="flex items-center gap-4">
                                 <div className={`w-14 h-14 rounded-3xl flex items-center justify-center ${st.bg} text-white shadow-2xl shadow-slate-200 group-hover:rotate-6 transition-transform`}>

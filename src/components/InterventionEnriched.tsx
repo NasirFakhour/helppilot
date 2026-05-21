@@ -288,13 +288,13 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
 
       {/* Closing Modal Overlay */}
       {isClosing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="card w-full max-w-lg shadow-2xl animate-scale-up">
-            <div className="card-header flex justify-between items-center">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="card w-full sm:max-w-lg shadow-2xl animate-scale-up rounded-b-none sm:rounded-2xl max-h-[90dvh] flex flex-col">
+            <div className="card-header flex justify-between items-center flex-shrink-0">
               <h3 className="card-title">Clôturer l'intervention</h3>
               <button onClick={() => setIsClosing(false)} className="p-2"><X className="w-5 h-5" /></button>
             </div>
-            <div className="card-body space-y-6">
+            <div className="card-body space-y-6 overflow-y-auto">
               <div className="p-4 bg-[var(--color-warning-light)] rounded-2xl border border-[var(--color-warning)]/20 flex gap-3">
                 <AlertCircle className="w-5 h-5 text-[var(--color-warning)] flex-shrink-0" />
                 <p className="text-sm text-secondary">
@@ -322,7 +322,7 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
                 </div>
               </div>
             </div>
-            <div className="card-footer flex justify-end gap-3">
+            <div className="card-footer flex justify-end gap-3 flex-shrink-0 pb-safe">
               <button onClick={() => setIsClosing(false)} className="btn btn-ghost">Annuler</button>
               <button onClick={handleClose} className="btn btn-success" disabled={loading}>
                 {loading ? 'Validation...' : 'Valider & Clôturer'}

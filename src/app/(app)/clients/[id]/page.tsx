@@ -164,41 +164,41 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                   }
                   return (
                     <Link key={i.id} href={`/interventions/${i.id}/edit`} className="flex items-center gap-4 p-5 hover:bg-[var(--color-surface)] transition-all group">
-                      <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-light)] flex flex-col items-center justify-center text-[var(--color-accent)] shadow-sm group-hover:shadow-md transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-light)] flex flex-col items-center justify-center text-[var(--color-accent)] shadow-sm group-hover:shadow-md transition-all flex-shrink-0">
                         <Calendar className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-start">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                           <div className="font-bold truncate group-hover:text-[var(--color-accent)] transition-colors">{i.description || 'Intervention'}</div>
-                          <div className="font-bold ml-2">{formatCurrency(i.montant)}</div>
+                          <div className="font-bold text-sm sm:text-base">{formatCurrency(i.montant)}</div>
                         </div>
-                        <div className="flex items-center gap-3 mt-1 text-xs">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs">
                           <span className="text-secondary font-medium">{formatDate(i.date)}</span>
-                          <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                          <span className="w-1 h-1 rounded-full bg-[var(--color-border)] hidden sm:inline-block"></span>
                           <span className={`badge badge-${badgeColors[i.statut]} text-[9px]`}>{i.statut}</span>
                         </div>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
+                      <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all flex-shrink-0" />
                     </Link>
                   )
                 })}
                 {documents?.map((d: any) => (
                   <Link key={d.id} href={`/documents/${d.id}`} className="flex items-center gap-4 p-5 hover:bg-[var(--color-surface)] transition-all group">
-                    <div className={`w-10 h-10 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:shadow-md transition-all ${d.type === 'facture' ? 'bg-[var(--color-success-light)] text-[var(--color-success)]' : 'bg-[var(--color-primary-light)] text-[var(--color-primary)]'}`}>
+                    <div className={`w-10 h-10 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:shadow-md transition-all flex-shrink-0 ${d.type === 'facture' ? 'bg-[var(--color-success-light)] text-[var(--color-success)]' : 'bg-[var(--color-primary-light)] text-[var(--color-primary)]'}`}>
                       <FileText className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-start">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                         <div className="font-bold truncate group-hover:text-[var(--color-accent)] transition-colors">{d.type === 'facture' ? 'Facture' : 'Devis'} {d.numero}</div>
-                        <div className="font-bold ml-2">{formatCurrency(d.total_ttc)}</div>
+                        <div className="font-bold text-sm sm:text-base">{formatCurrency(d.total_ttc)}</div>
                       </div>
-                      <div className="flex items-center gap-3 mt-1 text-xs">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs">
                         <span className="text-secondary font-medium">{formatDate(d.date_emission)}</span>
-                        <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                        <span className="w-1 h-1 rounded-full bg-[var(--color-border)] hidden sm:inline-block"></span>
                         <span className="capitalize text-secondary">{d.statut}</span>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
+                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all flex-shrink-0" />
                   </Link>
                 ))}
               </div>
