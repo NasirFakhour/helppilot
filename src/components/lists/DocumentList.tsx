@@ -147,27 +147,31 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
             <div className="divide-y divide-[var(--color-border-light)]">
               {filteredDocuments.map((doc: any) => (
                 <Link key={doc.id} href={`/documents/${doc.id}`} className="flex items-center justify-between p-5 hover:bg-[var(--color-surface)] transition-all group">
-                  <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="w-10 h-10 rounded-xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-all flex-shrink-0">
                       <FileOutput className="w-5 h-5" />
                     </div>
-                    <div className="min-w-0">
-                      <div className="font-bold flex items-center gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-bold flex flex-wrap items-center gap-x-2 gap-y-1">
                         <span className="group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
                         <span className={`badge ${getStatusBadge(doc.statut)} text-[9px] px-2 py-0.5`}>
                           {getStatusLabel(doc.statut)}
                         </span>
                       </div>
-                      <div className="text-sm text-secondary mt-0.5 truncate">
+                      <div className="text-xs sm:text-sm text-secondary mt-0.5 truncate">
                         {fullName(doc.clients)} — {formatDate(doc.date_emission)}
+                      </div>
+                      {/* Prix sur mobile */}
+                      <div className="font-black text-sm text-[var(--color-accent)] mt-1 sm:hidden">
+                        {formatCurrency(doc.total_ttc)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-6 flex-shrink-0">
-                    <div className="text-right font-black text-lg hidden sm:block">
+                  <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0 ml-3">
+                    <div className="text-right font-black text-base sm:text-lg hidden sm:block">
                       {formatCurrency(doc.total_ttc)}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translateX(2px) transition-all" />
+                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translate-x-1 transition-all" />
                   </div>
                 </Link>
               ))}

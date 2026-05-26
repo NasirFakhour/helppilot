@@ -85,7 +85,8 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
             <h3 className="card-title">Détail des prestations</h3>
           </div>
           <div className="card-body p-0">
-            <div className="table-wrapper">
+            {/* Rendu Desktop (Tableau classique) */}
+            <div className="hidden md:block">
               <table className="w-full text-sm">
                 <thead className="bg-[var(--color-surface)] text-left">
                   <tr>
@@ -106,6 +107,26 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Rendu Mobile (Cartes empilées sans scroll) */}
+            <div className="block md:hidden divide-y divide-[var(--color-border-light)]">
+              {document.document_lignes?.sort((a:any, b:any) => a.ordre - b.ordre).map((line: any) => (
+                <div key={line.id} className="p-4 space-y-2">
+                  <div className="font-semibold text-sm text-[var(--color-text)]">
+                    {line.description}
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-secondary-muted">
+                    <div className="flex gap-2">
+                      <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-[11px] font-bold">Qté: {line.quantite}</span>
+                      <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-[11px] font-bold">P.U.: {formatCurrency(line.prix_unitaire_ht)}</span>
+                    </div>
+                    <div className="font-bold text-sm text-[var(--color-text)]">
+                      {formatCurrency(line.total_ht)}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             
             <div className="flex justify-end p-6 bg-[var(--color-surface)]">

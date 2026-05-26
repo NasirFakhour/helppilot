@@ -83,7 +83,10 @@ export function ClientList({ initialClients }: { initialClients: any[] }) {
                       {initials(c.nom, c.prenom)}
                     </div>
                     <div className="client-card-content">
-                      <div className="client-name group-hover:text-[var(--color-accent)] transition-colors">{fullName(c)}</div>
+                      <div className="client-name group-hover:text-[var(--color-accent)] transition-colors flex items-center flex-wrap gap-2">
+                        <span>{fullName(c)}</span>
+                        {c.societe && <span className="badge badge-neutral text-[9px] px-1.5 py-0.5">{c.societe}</span>}
+                      </div>
                       <div className="client-meta flex-wrap gap-x-4 gap-y-1">
                         {c.ville && (
                           <div className="flex items-center gap-1.5">

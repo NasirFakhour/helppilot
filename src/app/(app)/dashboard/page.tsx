@@ -118,12 +118,12 @@ export default async function DashboardPage() {
           <h1 className="text-3xl font-bold tracking-tight">Bonjour !</h1>
           <p className="text-lg text-secondary capitalize">{todayStr}</p>
         </div>
-        <div className="page-header-actions">
-          <Link href="/planning" className="btn btn-secondary shadow-sm">
+        <div className="page-header-actions w-full sm:w-auto flex flex-col sm:flex-row gap-2.5">
+          <Link href="/planning" className="btn btn-secondary shadow-sm justify-center w-full sm:w-auto">
             <CalendarDays className="w-4 h-4 mr-2" />
             Voir le planning
           </Link>
-          <Link href="/interventions/new" className="btn btn-primary shadow-glow">
+          <Link href="/interventions/new" className="btn btn-primary shadow-glow justify-center w-full sm:w-auto">
             Planifier une mission
             <ArrowUpRight className="w-4 h-4 ml-2" />
           </Link>

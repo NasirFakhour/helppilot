@@ -95,23 +95,23 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
   }
 
   const getStatusStyles = (status: string) => {
-    const styles: Record<string, { bg: string, text: string, dot: string }> = {
-      'a-planifier': { bg: 'bg-slate-500', text: 'text-white', dot: 'bg-slate-400' },
-      'planifiee':   { bg: 'bg-indigo-600', text: 'text-white', dot: 'bg-indigo-300' },
-      'en-cours':    { bg: 'bg-amber-500',  text: 'text-white', dot: 'bg-amber-200' },
-      'terminee':    { bg: 'bg-emerald-600', text: 'text-white', dot: 'bg-emerald-300' },
-      'facturee':    { bg: 'bg-sky-600',     text: 'text-white', dot: 'bg-sky-300' },
-      'annulee':     { bg: 'bg-rose-600',    text: 'text-white', dot: 'bg-rose-300' }
+    const styles: Record<string, { bg: string, text: string, border: string, dot: string, label: string }> = {
+      'a-planifier': { bg: 'bg-slate-50 border border-slate-200', text: 'text-slate-700', border: 'border-l-4 border-l-slate-500', dot: 'bg-slate-500', label: 'À planifier' },
+      'planifiee':   { bg: 'bg-indigo-50/90 border border-indigo-200', text: 'text-indigo-950', border: 'border-l-4 border-l-indigo-600', dot: 'bg-indigo-600', label: 'Planifiée' },
+      'en-cours':    { bg: 'bg-amber-50/90 border border-amber-200', text: 'text-amber-950', border: 'border-l-4 border-l-amber-500', dot: 'bg-amber-500', label: 'En cours' },
+      'terminee':    { bg: 'bg-emerald-50/90 border border-emerald-200', text: 'text-emerald-950', border: 'border-l-4 border-l-emerald-600', dot: 'bg-emerald-600', label: 'Terminée' },
+      'facturee':    { bg: 'bg-sky-50/90 border border-sky-200', text: 'text-sky-950', border: 'border-l-4 border-l-sky-600', dot: 'bg-sky-600', label: 'Facturée' },
+      'annulee':     { bg: 'bg-rose-50/90 border border-rose-200', text: 'text-rose-950', border: 'border-l-4 border-l-rose-600', dot: 'bg-rose-600', label: 'Annulée' }
     }
     return styles[status] || styles['a-planifier']
   }
 
   const getPriorityTag = (priority: string) => {
     switch(priority) {
-      case 'urgente': return 'bg-rose-100 text-rose-700 border-rose-200'
-      case 'haute':   return 'bg-orange-100 text-orange-700 border-orange-200'
-      case 'normale': return 'bg-blue-100 text-blue-700 border-blue-200'
-      default:        return 'bg-slate-100 text-slate-700 border-slate-200'
+      case 'urgente': return 'bg-rose-50 text-rose-700 border-rose-200'
+      case 'haute':   return 'bg-orange-50 text-orange-700 border-orange-200'
+      case 'normale': return 'bg-blue-50 text-blue-700 border-blue-200'
+      default:        return 'bg-slate-50 text-slate-700 border-slate-200'
     }
   }
 
@@ -253,31 +253,31 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                         <Link 
                           key={iv.id}
                           href={`/interventions/${iv.id}/edit`}
-                          className={`absolute left-3 right-3 rounded-2xl p-4 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all border-l-[8px] z-10 flex flex-col justify-between overflow-hidden ${st.bg} ${st.text} border-white/20`}
+                          className={`absolute left-3 right-3 rounded-2xl p-4 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all z-10 flex flex-col justify-between overflow-hidden ${st.bg} ${st.text} ${st.border}`}
                           style={{ top: `${top + 8}px`, height: `${height - 16}px` }}
                         >
                           <div>
-                            <div className="flex items-center justify-between gap-2 mb-3">
-                              <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-black/15 text-[11px] font-black uppercase tracking-tighter backdrop-blur-sm">
-                                <Clock className="w-3.5 h-3.5"/> {iv.heure || '08:00'}
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-white/60 border border-slate-200/30 text-[10px] font-black uppercase tracking-tight">
+                                <Clock className="w-3 h-3 text-slate-500"/> {iv.heure || '08:00'}
                               </div>
                               {iv.priorite === 'urgente' && (
-                                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-rose-500 text-white text-[10px] font-black uppercase animate-pulse">
-                                  <AlertTriangle className="w-3 h-3"/> Urgent
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-rose-500 text-white text-[9px] font-black uppercase">
+                                  <AlertTriangle className="w-2.5 h-2.5"/> Urgent
                                 </div>
                               )}
                             </div>
-                            <div className="font-black text-sm lg:text-base leading-tight line-clamp-2 mb-1.5 uppercase tracking-tight">
+                            <div className="font-extrabold text-sm leading-snug line-clamp-1 mb-1 tracking-tight">
                               {fullName(iv.clients)}
                             </div>
-                            <div className="text-[11px] font-bold opacity-90 line-clamp-2 mb-3 leading-relaxed">
-                              {iv.description || 'Intervention technique standard'}
+                            <div className="text-[10px] font-medium opacity-80 line-clamp-2 leading-relaxed">
+                              {iv.description || 'Intervention technique'}
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2 mt-auto bg-white/15 p-2.5 rounded-2xl border border-white/10 backdrop-blur-md">
-                            <MapPin className="w-4 h-4 flex-shrink-0 opacity-80"/>
-                            <span className="text-[11px] font-bold truncate tracking-tight">{iv.adresse || iv.clients?.ville || 'Sur site'}</span>
+                          <div className="flex items-center gap-1.5 mt-auto bg-white/50 p-1.5 rounded-xl border border-slate-200/30">
+                            <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-slate-500"/>
+                            <span className="text-[10px] font-bold truncate tracking-tight text-slate-600">{iv.adresse || iv.clients?.ville || 'Sur site'}</span>
                           </div>
                         </Link>
                       )
@@ -321,44 +321,50 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                     {dayIv.length > 0 ? dayIv.map(iv => {
                       const st = getStatusStyles(iv.statut)
                       return (
-                        <Link key={iv.id} href={`/interventions/${iv.id}/edit`} className="group">
-                          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:border-indigo-200 group-active:scale-[0.98] transition-all duration-300 relative overflow-hidden">
-                            <div className="flex items-start justify-between mb-6">
-                              <div className="flex items-center gap-4">
-                                <div className={`w-14 h-14 rounded-3xl flex items-center justify-center ${st.bg} text-white shadow-2xl shadow-slate-200 group-hover:rotate-6 transition-transform`}>
-                                  <Clock className="w-7 h-7"/>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-3 mb-1">
-                                    <span className="text-2xl font-black text-slate-900 leading-none">{iv.heure || '08:00'}</span>
-                                    <span className={`px-2.5 py-1 rounded-xl border text-[10px] font-black uppercase tracking-widest ${getPriorityTag(iv.priorite)}`}>
+                        <Link key={iv.id} href={`/interventions/${iv.id}/edit`} className="group block">
+                          <div className="bg-white rounded-2xl p-5 border border-slate-200 hover:border-indigo-200 hover:shadow-lg transition-all duration-200 relative overflow-hidden">
+                            {/* Card Accent Left Line */}
+                            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${st.dot}`}></div>
+                            
+                            <div className="pl-2">
+                              <div className="flex items-start justify-between mb-4">
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <span className="text-xs font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                                      <Clock className="w-3.5 h-3.5"/> {iv.heure || '08:00'}
+                                    </span>
+                                    <span className={`px-2 py-0.5 rounded-lg border text-[9px] font-black uppercase tracking-wider ${getPriorityTag(iv.priorite)}`}>
                                       {iv.priorite}
                                     </span>
                                   </div>
-                                  <h4 className="font-black text-xs text-slate-500 uppercase tracking-widest">{fullName(iv.clients)}</h4>
+                                  <h3 className="font-extrabold text-base text-slate-900 group-hover:text-indigo-600 transition-colors leading-tight truncate">
+                                    {fullName(iv.clients)}
+                                  </h3>
                                 </div>
+                                <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all flex-shrink-0 mt-1"/>
                               </div>
-                              <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all"/>
-                            </div>
 
-                            <div className="space-y-4 mb-6">
-                              <div className="flex items-start gap-3">
-                                <MapPin className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0"/>
-                                <p className="text-sm font-bold text-slate-700 leading-relaxed">{iv.adresse || iv.clients?.adresse || iv.clients?.ville || 'Sur site client'}</p>
+                              <div className="space-y-3 mb-4">
+                                <div className="flex items-start gap-2 text-slate-600">
+                                  <MapPin className="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0"/>
+                                  <p className="text-xs font-bold leading-normal">{iv.adresse || iv.clients?.adresse || iv.clients?.ville || 'Sur site client'}</p>
+                                </div>
+                                {iv.description && (
+                                  <div className="flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                    <Info className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0"/>
+                                    <p className="text-xs text-slate-500 font-semibold leading-relaxed italic line-clamp-2">"{iv.description}"</p>
+                                  </div>
+                                )}
                               </div>
-                              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <Info className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0"/>
-                                <p className="text-sm text-slate-500 font-semibold line-clamp-2 leading-relaxed italic">"{iv.description || 'Aucune consigne particulière.'}"</p>
-                              </div>
-                            </div>
 
-                            <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                              <div className="flex items-center gap-2.5">
-                                <div className={`w-3 h-3 rounded-full ${st.dot} shadow-inner`}></div>
-                                <span className="text-xs font-black text-slate-600 uppercase tracking-widest">{iv.statut}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5 text-indigo-600 text-xs font-black uppercase tracking-widest group-hover:gap-3 transition-all">
-                                Détails <ChevronRight className="w-4 h-4"/>
+                              <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs">
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-2.5 h-2.5 rounded-full ${st.dot}`}></div>
+                                  <span className="font-extrabold text-slate-600 uppercase tracking-wider text-[10px]">{st.label}</span>
+                                </div>
+                                <span className="font-extrabold text-indigo-600 text-[10px] uppercase tracking-wider flex items-center gap-1 group-hover:text-indigo-700">
+                                  Détails <ChevronRight className="w-3.5 h-3.5"/>
+                                </span>
                               </div>
                             </div>
                           </div>

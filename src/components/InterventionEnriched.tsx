@@ -289,42 +289,43 @@ export function InterventionEnriched({ intervention: initialIv, clients }: Inter
       {/* Closing Modal Overlay */}
       {isClosing && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="card w-full sm:max-w-lg shadow-2xl animate-scale-up rounded-b-none sm:rounded-2xl max-h-[90dvh] flex flex-col">
+          <div className="card w-full sm:max-w-lg shadow-2xl animate-scale-up rounded-b-none sm:rounded-2xl max-h-[85vh] sm:max-h-[90dvh] flex flex-col">
             <div className="card-header flex justify-between items-center flex-shrink-0">
               <h3 className="card-title">Clôturer l'intervention</h3>
-              <button onClick={() => setIsClosing(false)} className="p-2"><X className="w-5 h-5" /></button>
+              <button onClick={() => setIsClosing(false)} className="p-2 text-slate-500 hover:text-slate-800"><X className="w-5 h-5" /></button>
             </div>
-            <div className="card-body space-y-6 overflow-y-auto">
-              <div className="p-4 bg-[var(--color-warning-light)] rounded-2xl border border-[var(--color-warning)]/20 flex gap-3">
-                <AlertCircle className="w-5 h-5 text-[var(--color-warning)] flex-shrink-0" />
-                <p className="text-sm text-secondary">
+            <div className="card-body space-y-4 sm:space-y-6 overflow-y-auto">
+              <div className="p-3.5 bg-[var(--color-warning-light)] rounded-xl border border-[var(--color-warning)]/20 flex gap-3">
+                <AlertCircle className="w-5 h-5 text-[var(--color-warning)] flex-shrink-0 mt-0.5" />
+                <p className="text-xs sm:text-sm text-secondary leading-relaxed">
                   Vérifiez vos notes techniques et le matériel utilisé avant de valider définitivement.
                 </p>
               </div>
               <div className="form-group">
                 <label className="form-label">Notes de clôture</label>
                 <textarea 
-                  className="form-control" 
+                  className="form-control text-sm" 
                   rows={3} 
                   value={notesTech} 
                   onChange={(e) => setNotesTech(e.target.value)}
+                  placeholder="Compte-rendu final de l'intervention..."
                 ></textarea>
               </div>
               <div className="space-y-2">
-                <p className="text-xs font-bold text-muted uppercase">Résumé financier</p>
-                <div className="flex justify-between items-center p-3 bg-[var(--color-surface)] rounded-xl">
-                  <span>Prestation</span>
-                  <span className="font-bold">{formatCurrency(iv.montant)}</span>
+                <p className="text-xs font-bold text-muted uppercase tracking-wider">Résumé financier</p>
+                <div className="flex justify-between items-center p-3 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border-light)] text-sm">
+                  <span className="text-secondary font-medium">Prestation</span>
+                  <span className="font-bold text-slate-900">{formatCurrency(iv.montant)}</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-[var(--color-surface)] rounded-xl">
-                  <span>Matériel total</span>
-                  <span className="font-bold">{formatCurrency(materiel.reduce((acc, p) => acc + p.price, 0))}</span>
+                <div className="flex justify-between items-center p-3 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border-light)] text-sm">
+                  <span className="text-secondary font-medium">Matériel total</span>
+                  <span className="font-bold text-slate-900">{formatCurrency(materiel.reduce((acc, p) => acc + p.price, 0))}</span>
                 </div>
               </div>
             </div>
-            <div className="card-footer flex justify-end gap-3 flex-shrink-0 pb-safe">
-              <button onClick={() => setIsClosing(false)} className="btn btn-ghost">Annuler</button>
-              <button onClick={handleClose} className="btn btn-success" disabled={loading}>
+            <div className="card-footer flex justify-end gap-3 flex-shrink-0 pb-6 sm:pb-4">
+              <button onClick={() => setIsClosing(false)} className="btn btn-ghost text-sm">Annuler</button>
+              <button onClick={handleClose} className="btn btn-success text-sm shadow-sm" disabled={loading}>
                 {loading ? 'Validation...' : 'Valider & Clôturer'}
               </button>
             </div>

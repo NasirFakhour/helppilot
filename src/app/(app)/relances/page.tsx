@@ -100,20 +100,20 @@ export default async function RelancesPage() {
                     </div>
                   </div>
                   
-                  <div className="flex flex-row md:flex-row items-center justify-between md:justify-end gap-4 w-full md:w-auto pt-3 md:pt-0 border-t border-[var(--color-border-light)] md:border-none">
-                    <div className="text-xl sm:text-2xl font-black md:text-right md:min-w-[120px] text-slate-900 dark:text-white">
+                   <div className="flex flex-row items-center justify-between md:justify-end gap-4 w-full md:w-auto pt-4 md:pt-0 border-t border-[var(--color-border-light)] md:border-none">
+                    <div className="text-xl sm:text-2xl font-black md:text-right md:min-w-[120px] text-slate-900 dark:text-white flex-shrink-0">
                       {formatCurrency(r.montant)}
                     </div>
-                    <div className="flex gap-2 sm:flex-none">
-                      <form action={markRelanceSent.bind(null, r.id)} className="sm:flex-none">
-                        <button type="submit" className="btn btn-secondary btn-sm md:px-[18px] md:py-[10px] md:text-sm" disabled={r.statut_paiement === 'en-attente'}>
-                          <Mail className="w-4 h-4 mr-2" />
+                    <div className="flex gap-2.5 flex-1 md:flex-none justify-end">
+                      <form action={markRelanceSent.bind(null, r.id)} className="flex-1 sm:flex-none">
+                        <button type="submit" className="btn btn-secondary btn-sm w-full md:w-auto justify-center py-2.5 px-3 md:px-[18px] md:py-[10px] md:text-sm" disabled={r.statut_paiement === 'en-attente'}>
+                          <Mail className="w-4 h-4 mr-1.5 flex-shrink-0" />
                           <span>Relancer</span>
                         </button>
                       </form>
-                      <form action={markAsPaid.bind(null, r.id)} className="sm:flex-none">
-                        <button type="submit" className="btn btn-success btn-sm md:px-[18px] md:py-[10px] md:text-sm shadow-sm">
-                          <Check className="w-4 h-4 mr-2" />
+                      <form action={markAsPaid.bind(null, r.id)} className="flex-1 sm:flex-none">
+                        <button type="submit" className="btn btn-success btn-sm w-full md:w-auto justify-center py-2.5 px-3 md:px-[18px] md:py-[10px] md:text-sm shadow-sm">
+                          <Check className="w-4 h-4 mr-1.5 flex-shrink-0" />
                           <span>Payé</span>
                         </button>
                       </form>
