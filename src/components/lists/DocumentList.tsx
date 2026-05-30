@@ -177,16 +177,17 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
                     <td className="px-6 py-4 text-xl font-black text-slate-900">{formatCurrency(doc.total_ttc)}</td>
                     <td className="px-6 py-4">
                       <Badge variant={
-                        (function(){
+                        (() => {
                           const map = {
                             'brouillon': 'neutral',
                             'envoye': 'primary',
                             'accepte': 'success',
                             'paye': 'success',
                             'refuse': 'danger',
-                            'retard': 'danger'
-                          };
-                          return map[doc.statut] || 'neutral';
+                            'retard': 'danger',
+                          } as const;
+                          const key = doc.statut as keyof typeof map;
+                          return map[key] || 'neutral';
                         })()
                       }>{getStatusLabel(doc.statut)}</Badge>
                     </td>
