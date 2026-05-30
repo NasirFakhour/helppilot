@@ -270,6 +270,8 @@
   max-width: var(--content-max-width);
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ══ OVERLAYS ═════════════════════════════════════════════ */
@@ -315,12 +317,12 @@
 
 @media (max-width: 640px) {
   .page-content {
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-6) var(--space-5);
   }
   
   .topbar {
-    padding: 0 var(--space-4);
-    height: 60px;
+    padding: 0 var(--space-5);
+    height: 64px;
   }
   
   .page-header {

@@ -69,16 +69,16 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
         </div>
       </div>
 
-      <div className="tab-bar mb-6">
+      <div className="flex p-1 bg-slate-100/80 backdrop-blur-md rounded-xl max-w-sm mb-8 border border-slate-200/60 shadow-inner">
         <button 
           onClick={() => { router.push('/documents?type=devis'); setFilterStatut('all'); setSearch('') }}
-          className={`flex-1 sm:flex-none px-8 py-3 font-bold text-sm border-b-2 transition-all ${defaultTab === 'devis' ? 'border-[var(--color-accent)] text-[var(--color-accent)]' : 'border-transparent text-secondary hover:text-[var(--color-text)]'}`}
+          className={`flex-1 px-6 py-2.5 font-bold text-sm rounded-lg transition-all ${defaultTab === 'devis' ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}
         >
           Devis
         </button>
         <button 
           onClick={() => { router.push('/documents?type=facture'); setFilterStatut('all'); setSearch('') }}
-          className={`flex-1 sm:flex-none px-8 py-3 font-bold text-sm border-b-2 transition-all ${defaultTab === 'facture' ? 'border-[var(--color-accent)] text-[var(--color-accent)]' : 'border-transparent text-secondary hover:text-[var(--color-text)]'}`}
+          className={`flex-1 px-6 py-2.5 font-bold text-sm rounded-lg transition-all ${defaultTab === 'facture' ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}
         >
           Factures
         </button>
@@ -146,32 +146,28 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
           <div className="card-body p-0">
             <div className="divide-y divide-[var(--color-border-light)]">
               {filteredDocuments.map((doc: any) => (
-                <Link key={doc.id} href={`/documents/${doc.id}`} className="flex items-center justify-between p-5 hover:bg-[var(--color-surface)] transition-all group">
-                  <div className="flex items-center gap-4 min-w-0 flex-1">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-all flex-shrink-0">
-                      <FileOutput className="w-5 h-5" />
+                <Link key={doc.id} href={`/documents/${doc.id}`} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 hover:bg-[var(--color-surface)] transition-all group gap-4">
+                  <div className="flex items-center gap-5 min-w-0 flex-1">
+                    <div className="w-12 h-12 rounded-2xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform flex-shrink-0">
+                      <FileOutput className="w-6 h-6" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-bold flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span className="group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
-                        <span className={`badge ${getStatusBadge(doc.statut)} text-[9px] px-2 py-0.5`}>
+                      <div className="font-bold flex flex-wrap items-center gap-x-3 gap-y-2">
+                        <span className="text-lg group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
+                        <span className={`badge ${getStatusBadge(doc.statut)}`}>
                           {getStatusLabel(doc.statut)}
                         </span>
                       </div>
-                      <div className="text-xs sm:text-sm text-secondary mt-0.5 truncate">
-                        {fullName(doc.clients)} — {formatDate(doc.date_emission)}
-                      </div>
-                      {/* Prix sur mobile */}
-                      <div className="font-black text-sm text-[var(--color-accent)] mt-1 sm:hidden">
-                        {formatCurrency(doc.total_ttc)}
+                      <div className="text-sm text-secondary mt-1 truncate">
+                        <span className="font-semibold text-slate-700">{fullName(doc.clients)}</span> — {formatDate(doc.date_emission)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0 ml-3">
-                    <div className="text-right font-black text-base sm:text-lg hidden sm:block">
+                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 sm:gap-6 flex-shrink-0 border-t border-slate-100 sm:border-none pt-4 sm:pt-0">
+                    <div className="text-left sm:text-right font-black text-xl text-slate-900">
                       {formatCurrency(doc.total_ttc)}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="w-5 h-5 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translate-x-1 transition-all" />
                   </div>
                 </Link>
               ))}

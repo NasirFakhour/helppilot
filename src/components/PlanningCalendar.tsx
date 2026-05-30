@@ -96,22 +96,22 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
 
   const getStatusStyles = (status: string) => {
     const styles: Record<string, { bg: string, text: string, border: string, dot: string, label: string }> = {
-      'a-planifier': { bg: 'bg-slate-50 border border-slate-200', text: 'text-slate-700', border: 'border-l-4 border-l-slate-500', dot: 'bg-slate-500', label: 'À planifier' },
-      'planifiee':   { bg: 'bg-indigo-50/90 border border-indigo-200', text: 'text-indigo-950', border: 'border-l-4 border-l-indigo-600', dot: 'bg-indigo-600', label: 'Planifiée' },
-      'en-cours':    { bg: 'bg-amber-50/90 border border-amber-200', text: 'text-amber-950', border: 'border-l-4 border-l-amber-500', dot: 'bg-amber-500', label: 'En cours' },
-      'terminee':    { bg: 'bg-emerald-50/90 border border-emerald-200', text: 'text-emerald-950', border: 'border-l-4 border-l-emerald-600', dot: 'bg-emerald-600', label: 'Terminée' },
-      'facturee':    { bg: 'bg-sky-50/90 border border-sky-200', text: 'text-sky-950', border: 'border-l-4 border-l-sky-600', dot: 'bg-sky-600', label: 'Facturée' },
-      'annulee':     { bg: 'bg-rose-50/90 border border-rose-200', text: 'text-rose-950', border: 'border-l-4 border-l-rose-600', dot: 'bg-rose-600', label: 'Annulée' }
+      'a-planifier': { bg: 'bg-white border border-slate-100 shadow-sm', text: 'text-slate-700', border: 'border-l-4 border-l-slate-400', dot: 'bg-slate-400', label: 'À planifier' },
+      'planifiee':   { bg: 'bg-white border border-indigo-100 shadow-sm', text: 'text-indigo-950', border: 'border-l-4 border-l-indigo-500', dot: 'bg-indigo-500', label: 'Planifiée' },
+      'en-cours':    { bg: 'bg-white border border-amber-100 shadow-sm', text: 'text-amber-950', border: 'border-l-4 border-l-amber-500', dot: 'bg-amber-500', label: 'En cours' },
+      'terminee':    { bg: 'bg-white border border-emerald-100 shadow-sm', text: 'text-emerald-950', border: 'border-l-4 border-l-emerald-500', dot: 'bg-emerald-500', label: 'Terminée' },
+      'facturee':    { bg: 'bg-white border border-sky-100 shadow-sm', text: 'text-sky-950', border: 'border-l-4 border-l-sky-500', dot: 'bg-sky-500', label: 'Facturée' },
+      'annulee':     { bg: 'bg-white border border-rose-100 shadow-sm', text: 'text-rose-950', border: 'border-l-4 border-l-rose-500', dot: 'bg-rose-500', label: 'Annulée' }
     }
     return styles[status] || styles['a-planifier']
   }
 
   const getPriorityTag = (priority: string) => {
     switch(priority) {
-      case 'urgente': return 'bg-rose-50 text-rose-700 border-rose-200'
-      case 'haute':   return 'bg-orange-50 text-orange-700 border-orange-200'
-      case 'normale': return 'bg-blue-50 text-blue-700 border-blue-200'
-      default:        return 'bg-slate-50 text-slate-700 border-slate-200'
+      case 'urgente': return 'bg-rose-50 text-rose-600 border-rose-100'
+      case 'haute':   return 'bg-orange-50 text-orange-600 border-orange-100'
+      case 'normale': return 'bg-blue-50 text-blue-600 border-blue-100'
+      default:        return 'bg-slate-50 text-slate-600 border-slate-100'
     }
   }
 
@@ -253,7 +253,7 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                         <Link 
                           key={iv.id}
                           href={`/interventions/${iv.id}/edit`}
-                          className={`absolute left-3 right-3 rounded-2xl p-4 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all z-10 flex flex-col justify-between overflow-hidden ${st.bg} ${st.text} ${st.border}`}
+                          className={`absolute left-2 right-2 rounded-xl p-3 hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all z-10 flex flex-col justify-between overflow-hidden ${st.bg} ${st.text} ${st.border}`}
                           style={{ top: `${top + 8}px`, height: `${height - 16}px` }}
                         >
                           <div>
@@ -322,11 +322,11 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                       const st = getStatusStyles(iv.statut)
                       return (
                         <Link key={iv.id} href={`/interventions/${iv.id}/edit`} className="group block">
-                          <div className="bg-white rounded-2xl p-5 border border-slate-200 hover:border-indigo-200 hover:shadow-lg transition-all duration-200 relative overflow-hidden">
+                          <div className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 relative overflow-hidden shadow-sm">
                             {/* Card Accent Left Line */}
                             <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${st.dot}`}></div>
                             
-                            <div className="pl-2">
+                            <div className="pl-3">
                               <div className="flex items-start justify-between mb-4">
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-2 mb-1.5">
@@ -344,20 +344,20 @@ export function PlanningCalendar({ initialInterventions }: PlanningCalendarProps
                                 <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all flex-shrink-0 mt-1"/>
                               </div>
 
-                              <div className="space-y-3 mb-4">
-                                <div className="flex items-start gap-2 text-slate-600">
-                                  <MapPin className="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0"/>
-                                  <p className="text-xs font-bold leading-normal">{iv.adresse || iv.clients?.adresse || iv.clients?.ville || 'Sur site client'}</p>
+                              <div className="space-y-3 mb-5">
+                                <div className="flex items-start gap-2.5 text-slate-500">
+                                  <MapPin className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0"/>
+                                  <p className="text-sm font-medium leading-normal">{iv.adresse || iv.clients?.adresse || iv.clients?.ville || 'Sur site client'}</p>
                                 </div>
                                 {iv.description && (
-                                  <div className="flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                  <div className="flex items-start gap-2.5 p-3.5 bg-slate-50/50 rounded-xl border border-slate-100/50">
                                     <Info className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0"/>
-                                    <p className="text-xs text-slate-500 font-semibold leading-relaxed italic line-clamp-2">"{iv.description}"</p>
+                                    <p className="text-sm text-slate-600 font-medium leading-relaxed italic line-clamp-2">"{iv.description}"</p>
                                   </div>
                                 )}
                               </div>
-
-                              <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs">
+                              
+                              <div className="flex items-center justify-between pt-4 border-t border-slate-50 text-xs">
                                 <div className="flex items-center gap-2">
                                   <div className={`w-2.5 h-2.5 rounded-full ${st.dot}`}></div>
                                   <span className="font-extrabold text-slate-600 uppercase tracking-wider text-[10px]">{st.label}</span>
