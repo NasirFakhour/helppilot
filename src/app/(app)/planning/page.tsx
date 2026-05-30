@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
 import { PlanningCalendar } from '@/components/PlanningCalendar'
-import Header from '@/components/ui/Header'
 import Card from '@/components/ui/Card'
 
 export default async function PlanningPage() {
@@ -13,14 +12,12 @@ export default async function PlanningPage() {
 
   return (
     <div className="animate-fade-in h-[calc(100vh-var(--topbar-height)-var(--space-12))] flex flex-col">
-      <Header>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Planning</h1>
-            <p className="text-secondary">Gérez vos interventions et vos tournées</p>
-          </div>
+      <div className="page-header">
+        <div className="page-header-left">
+          <h1 className="text-3xl font-bold tracking-tight">Planning</h1>
+          <p className="text-secondary">Gérez vos interventions et vos tournées</p>
         </div>
-      </Header>
+      </div>
       
       <Card className="p-6 flex-1 min-h-0">
         <PlanningCalendar initialInterventions={interventions || []} />

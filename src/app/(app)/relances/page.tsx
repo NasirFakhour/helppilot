@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { formatCurrency, formatDate, fullName } from '@/lib/utils'
 import { markRelanceSent, markAsPaid } from '@/app/(app)/actions'
-import Header from '@/components/ui/Header'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
@@ -57,17 +56,17 @@ export default async function RelancesPage() {
 
   return (
     <div className="animate-fade-in">
-      <Header>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Relances de paiement</h1>
-            <p className="text-secondary">Suivi des factures impayées et missions terminées</p>
-          </div>
+      <div className="page-header">
+        <div className="page-header-left">
+          <h1 className="text-3xl font-bold tracking-tight">Relances de paiement</h1>
+          <p className="text-secondary">Suivi des factures impayées et missions terminées</p>
+        </div>
+        <div className="page-header-actions">
           <Badge variant="danger" className="p-4 text-base font-bold shadow-md">
             À recouvrer : {formatCurrency(pendingPayments)}
           </Badge>
         </div>
-      </Header>
+      </div>
 
       {!relances || relances.length === 0 ? (
         <div className="card">

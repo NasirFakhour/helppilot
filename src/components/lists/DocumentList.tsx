@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { FileText, Plus, Search, ChevronRight, FileOutput } from 'lucide-react'
 import { formatCurrency, formatDate, fullName } from '@/lib/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Header from '@/components/ui/Header'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
@@ -60,12 +59,12 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
 
   return (
     <div className="animate-fade-in">
-      <Card className="p-6 mb-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Devis & Factures</h1>
-            <p className="text-secondary">Gérez vos documents commerciaux et votre facturation</p>
-          </div>
+      <div className="page-header">
+        <div className="page-header-left">
+          <h1 className="text-3xl font-bold tracking-tight">Devis & Factures</h1>
+          <p className="text-secondary">Gérez vos documents commerciaux et votre facturation</p>
+        </div>
+        <div className="page-header-actions">
           <Link href={`/documents/new?type=${defaultTab}`}>
             <Button variant="primary">
               <Plus className="w-5 h-5 mr-2" />
@@ -73,7 +72,7 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
             </Button>
           </Link>
         </div>
-      </Card>
+      </div>
 
       <div className="flex p-1 bg-slate-100/80 backdrop-blur-md rounded-xl max-w-sm mb-8 border border-slate-200/60 shadow-inner">
         <button 
