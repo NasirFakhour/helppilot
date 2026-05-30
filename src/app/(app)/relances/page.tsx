@@ -1,7 +1,11 @@
 import { createClient } from '@/utils/supabase/server'
 import { formatCurrency, formatDate, fullName } from '@/lib/utils'
 import { markRelanceSent, markAsPaid } from '@/app/(app)/actions'
-import { BellRing, Check, Mail, ChevronRight } from 'lucide-react'
+import Header from '@/components/ui/Header'
+import Card from '@/components/ui/Card'
+import Badge from '@/components/ui/Badge'
+import Button from '@/components/ui/Button'
+import { BellRing, Check, Mail } from 'lucide-react'
 
 export default async function RelancesPage() {
   const supabase = await createClient()
@@ -53,17 +57,17 @@ export default async function RelancesPage() {
 
   return (
     <div className="animate-fade-in">
-      <div className="page-header items-start sm:items-center">
-        <div className="page-header-left">
-          <h1 className="text-3xl font-bold tracking-tight">Relances de paiement</h1>
-          <p className="text-secondary">Suivi des factures impayées et missions terminées</p>
-        </div>
-        <div className="page-header-actions w-full sm:w-auto">
-          <div className="badge badge-danger p-4 text-base font-bold shadow-md w-full justify-center">
-            À recouvrer : {formatCurrency(pendingPayments)}
+      <Header>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Relances de paiement</h1>
+            <p className="text-secondary">Suivi des factures impayées et missions terminées</p>
           </div>
+          <Badge variant="danger" className="p-4 text-base font-bold shadow-md">
+            À recouvrer : {formatCurrency(pendingPayments)}
+          </Badge>
         </div>
-      </div>
+      </Header>
 
       {!relances || relances.length === 0 ? (
         <div className="card">
@@ -74,48 +78,39 @@ export default async function RelancesPage() {
           </div>
         </div>
       ) : (
-        <div className="card">
-          <div className="card-header">
-            <h3 className="card-title">Relances urgentes</h3>
-          </div>
-          <div className="card-body p-0">
+        <Card>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xl font-semibold">Relances urgentes</h3>
             <div className="divide-y divide-[var(--color-border-light)]">
               {relances.map((r: any) => (
                 <div key={`${r.relanceSource}-${r.id}`} className="p-6 sm:p-8 flex flex-col md:flex-row md:items-center gap-6 sm:gap-8 hover:bg-[var(--color-surface)] transition-all">
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <span className={`badge ${r.urgency >= 3 ? 'badge-danger' : r.urgency === 2 ? 'badge-warning' : 'badge-primary'} shadow-sm`}>
-                        {r.relanceType}
-                      </span>
-                      {r.statut_paiement === 'en-attente' && (
-                        <span className="badge badge-neutral">Déjà relancé</span>
-                      )}
-                      {r.relanceSource === 'invoice' && (
-                        <span className="badge badge-info">Facture</span>
-                      )}
+                      <Badge variant={r.urgency >= 3 ? 'danger' : r.urgency === 2 ? 'warning' : 'primary'}>{r.relanceType}</Badge>
+                      {r.statut_paiement === 'en-attente' && <Badge variant="neutral">Déjà relancé</Badge>}
+                      {r.relanceSource === 'invoice' && <Badge variant="info">Facture</Badge>}
                     </div>
                     <div className="text-lg sm:text-xl font-bold group-hover:text-[var(--color-accent)] transition-colors truncate">{fullName(r.clients)}</div>
                     <div className="text-sm text-secondary mt-1.5 leading-relaxed">
                       {r.relanceSource === 'invoice' ? `Échéance le ${formatDate(r.date_echeance)}` : `Terminée le ${formatDate(r.date)}`} — {r.description}
                     </div>
                   </div>
-                  
-                   <div className="flex flex-col sm:flex-row items-center justify-between md:justify-end gap-5 w-full md:w-auto pt-5 md:pt-0 border-t border-slate-100 md:border-none">
+                  <div className="flex flex-col sm:flex-row items-center justify-between md:justify-end gap-5 w-full md:w-auto pt-5 md:pt-0 border-t border-slate-100 md:border-none">
                     <div className="text-2xl font-black md:text-right md:min-w-[120px] text-slate-900 flex-shrink-0 w-full sm:w-auto text-left">
                       {formatCurrency(r.montant)}
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                       <form action={markRelanceSent.bind(null, r.id)} className="w-full sm:w-auto">
-                        <button type="submit" className="btn btn-secondary w-full justify-center shadow-sm" disabled={r.statut_paiement === 'en-attente'}>
+                        <Button variant="secondary" disabled={r.statut_paiement === 'en-attente'}>
                           <Mail className="w-5 h-5 mr-2" />
-                          <span>Relancer</span>
-                        </button>
+                          Relancer
+                        </Button>
                       </form>
                       <form action={markAsPaid.bind(null, r.id)} className="w-full sm:w-auto">
-                        <button type="submit" className="btn btn-success w-full justify-center shadow-sm">
+                        <Button variant="success">
                           <Check className="w-5 h-5 mr-2" />
-                          <span>Marquer Payé</span>
-                        </button>
+                          Marquer Payé
+                        </Button>
                       </form>
                     </div>
                   </div>
@@ -123,9 +118,8 @@ export default async function RelancesPage() {
               ))}
             </div>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   )
 }
-

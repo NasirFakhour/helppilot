@@ -11,16 +11,18 @@ export default async function PlanningPage() {
 
   return (
     <div className="animate-fade-in h-[calc(100vh-var(--topbar-height)-var(--space-12))] flex flex-col">
-      <div className="page-header mb-4">
-        <div className="page-header-left">
-          <h1>Planning</h1>
-          <p>Gérez vos interventions et vos tournées</p>
+      <Header>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Planning</h1>
+            <p className="text-secondary">Gérez vos interventions et vos tournées</p>
+          </div>
         </div>
-      </div>
+      </Header>
       
-      <div className="flex-1 min-h-0">
+      <Card className="p-6 flex-1 min-h-0">
         <PlanningCalendar initialInterventions={interventions || []} />
-      </div>
+      </Card>
     </div>
   )
 }

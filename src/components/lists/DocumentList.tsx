@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { FileText, Plus, Search, ChevronRight, FileOutput } from 'lucide-react'
 import { formatCurrency, formatDate, fullName } from '@/lib/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Header from '@/components/ui/Header'
+import Card from '@/components/ui/Card'
+import Badge from '@/components/ui/Badge'
+import Button from '@/components/ui/Button'
 
 export function DocumentList({ initialDocuments, defaultTab }: { initialDocuments: any[], defaultTab: string }) {
   const router = useRouter()
@@ -56,18 +60,20 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
 
   return (
     <div className="animate-fade-in">
-      <div className="page-header">
-        <div className="page-header-left">
-          <h1>Devis & Factures</h1>
-          <p>Gérez vos documents commerciaux et votre facturation</p>
-        </div>
-        <div className="page-header-actions">
-          <Link href={`/documents/new?type=${defaultTab}`} className="btn btn-primary">
-            <Plus className="w-5 h-5" />
-            <span>Nouveau {defaultTab}</span>
+      <Card className="p-6 mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Devis & Factures</h1>
+            <p className="text-secondary">Gérez vos documents commerciaux et votre facturation</p>
+          </div>
+          <Link href={`/documents/new?type=${defaultTab}`}>
+            <Button variant="primary">
+              <Plus className="w-5 h-5 mr-2" />
+              Nouveau {defaultTab}
+            </Button>
           </Link>
         </div>
-      </div>
+      </Card>
 
       <div className="flex p-1 bg-slate-100/80 backdrop-blur-md rounded-xl max-w-sm mb-8 border border-slate-200/60 shadow-inner">
         <button 
@@ -120,58 +126,77 @@ export function DocumentList({ initialDocuments, defaultTab }: { initialDocument
       )}
 
       {!initialDocuments || initialDocuments.length === 0 ? (
-        <div className="card">
+        <Card className="p-6 text-center">
           <div className="empty-state">
             <div className="empty-state-icon"><FileText /></div>
             <h2 className="empty-state-title">Aucun {defaultTab}</h2>
             <p className="empty-state-desc">Vous n'avez pas encore créé de {defaultTab}.</p>
-            <Link href={`/documents/new?type=${defaultTab}`} className="btn btn-primary mt-4">Créer mon premier {defaultTab}</Link>
+            <Link href={`/documents/new?type=${defaultTab}`}>
+              <Button variant="primary" className="mt-4">Créer mon premier {defaultTab}</Button>
+            </Link>
           </div>
-        </div>
+        </Card>
       ) : filteredDocuments.length === 0 ? (
-        <div className="card">
+        <Card className="p-6 text-center">
           <div className="empty-state py-12">
             <Search className="w-12 h-12 text-muted mb-4 opacity-50" />
             <h2 className="text-lg font-bold">Aucun résultat</h2>
             <p className="text-muted mt-2">Aucun {defaultTab} ne correspond à votre recherche.</p>
-            <button onClick={() => { setSearch(''); setFilterStatut('all') }} className="btn btn-ghost mt-4">Réinitialiser les filtres</button>
+            <Button variant="neutral" className="mt-4" onClick={() => { setSearch(''); setFilterStatut('all') }}>Réinitialiser les filtres</Button>
           </div>
-        </div>
+        </Card>
       ) : (
         <div className="card">
           <div className="card-header flex justify-between items-center">
             <h3 className="card-title">Vos {defaultTab}s</h3>
             {(search || filterStatut !== 'all') && <span className="text-xs text-muted font-medium">{filteredDocuments.length} résultat(s)</span>}
           </div>
-          <div className="card-body p-0">
-            <div className="divide-y divide-[var(--color-border-light)]">
-              {filteredDocuments.map((doc: any) => (
-                <Link key={doc.id} href={`/documents/${doc.id}`} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 hover:bg-[var(--color-surface)] transition-all group gap-4">
-                  <div className="flex items-center gap-5 min-w-0 flex-1">
-                    <div className="w-12 h-12 rounded-2xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform flex-shrink-0">
-                      <FileOutput className="w-6 h-6" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="font-bold flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <span className="text-lg group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
-                        <span className={`badge ${getStatusBadge(doc.statut)}`}>
-                          {getStatusLabel(doc.statut)}
-                        </span>
+          <div className="card-body p-0 overflow-x-auto">
+            <table className="min-w-full border-collapse text-left">
+              <thead className="border-b border-slate-200">
+                <tr>
+                  <th className="px-6 py-3 text-sm font-medium text-slate-700">Numéro</th>
+                  <th className="px-6 py-3 text-sm font-medium text-slate-700">Client</th>
+                  <th className="px-6 py-3 text-sm font-medium text-slate-700">Date</th>
+                  <th className="px-6 py-3 text-sm font-medium text-slate-700">Montant</th>
+                  <th className="px-6 py-3 text-sm font-medium text-slate-700">Statut</th>
+                  <th className="px-6 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDocuments.map((doc: any) => (
+                  <tr key={doc.id} className="hover:bg-[var(--color-surface)] transition-colors cursor-pointer" onClick={() => router.push(`/documents/${doc.id}`)}>
+                    <td className="px-6 py-4 flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-2xl bg-[var(--color-primary-light)] text-primary flex items-center justify-center shadow-sm">
+                        <FileOutput className="w-6 h-6" />
                       </div>
-                      <div className="text-sm text-secondary mt-1 truncate">
-                        <span className="font-semibold text-slate-700">{fullName(doc.clients)}</span> — {formatDate(doc.date_emission)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 sm:gap-6 flex-shrink-0 border-t border-slate-100 sm:border-none pt-4 sm:pt-0">
-                    <div className="text-left sm:text-right font-black text-xl text-slate-900">
-                      {formatCurrency(doc.total_ttc)}
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transform group-hover:translate-x-1 transition-all" />
-                  </div>
-                </Link>
-              ))}
-            </div>
+                      <span className="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors">{doc.numero}</span>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-semibold text-slate-700">{fullName(doc.clients)}</td>
+                    <td className="px-6 py-4 text-sm text-secondary">{formatDate(doc.date_emission)}</td>
+                    <td className="px-6 py-4 text-xl font-black text-slate-900">{formatCurrency(doc.total_ttc)}</td>
+                    <td className="px-6 py-4">
+                      <Badge variant={
+                        (function(){
+                          const map = {
+                            'brouillon': 'neutral',
+                            'envoye': 'primary',
+                            'accepte': 'success',
+                            'paye': 'success',
+                            'refuse': 'danger',
+                            'retard': 'danger'
+                          };
+                          return map[doc.statut] || 'neutral';
+                        })()
+                      }>{getStatusLabel(doc.statut)}</Badge>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <ChevronRight className="w-5 h-5 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)]" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

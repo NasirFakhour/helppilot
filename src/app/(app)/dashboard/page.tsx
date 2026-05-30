@@ -3,6 +3,7 @@ import { Intervention, Client } from '@/lib/types'
 import { formatCurrency, formatTime, formatDate, truncate, fullName } from '@/lib/utils'
 import Link from 'next/link'
 import { EmptyStateDashboard } from '@/components/EmptyStates'
+import Card from '@/components/ui/Card'
 import { 
   CalendarDays, 
   Wallet, 
@@ -131,30 +132,30 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-        <div className="stat-card">
-          <p className="stat-label">Chiffre du mois (payé)</p>
-          <p className="stat-value text-[var(--color-success)]">{formatCurrency(monthTurnover)}</p>
-          <p className="stat-sub">Objectif atteint</p>
-        </div>
+  <Card className="p-6 mb-8">
+    <p className="stat-label">Chiffre du mois (payé)</p>
+    <p className="stat-value text-[var(--color-success)]">{formatCurrency(monthTurnover)}</p>
+    <p className="stat-sub">Objectif atteint</p>
+  </Card>
 
-        <div className="stat-card">
-          <p className="stat-label">En attente (Devis)</p>
-          <p className="stat-value">{formatCurrency(pendingQuotesAmount)}</p>
-          <p className="stat-sub">{pendingQuotes?.length || 0} devis envoyés</p>
-        </div>
+  <Card className="p-6 mb-8">
+    <p className="stat-label">En attente (Devis)</p>
+    <p className="stat-value">{formatCurrency(pendingQuotesAmount)}</p>
+    <p className="stat-sub">{pendingQuotes?.length || 0} devis envoyés</p>
+  </Card>
 
-        <div className="stat-card">
-          <p className="stat-label">À facturer</p>
-          <p className="stat-value text-[var(--color-warning)]">{formatCurrency(pendingPayments)}</p>
-          <p className="stat-sub">{unpaidInterventions?.length || 0} missions terminées</p>
-        </div>
+  <Card className="p-6 mb-8">
+    <p className="stat-label">À facturer</p>
+    <p className="stat-value text-[var(--color-warning)]">{formatCurrency(pendingPayments)}</p>
+    <p className="stat-sub">{unpaidInterventions?.length || 0} missions terminées</p>
+  </Card>
 
-        <div className="stat-card">
-          <p className="stat-label">Factures en retard</p>
-          <p className="stat-value text-[var(--color-danger)]">{(overdueInvoices || []).length}</p>
-          <p className="stat-sub">Action requise 🚨</p>
-        </div>
-      </div>
+  <Card className="p-6 mb-8">
+    <p className="stat-label">Factures en retard</p>
+    <p className="stat-value text-[var(--color-danger)]">{(overdueInvoices || []).length}</p>
+    <p className="stat-sub">Action requise 🚨</p>
+  </Card>
+</div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
