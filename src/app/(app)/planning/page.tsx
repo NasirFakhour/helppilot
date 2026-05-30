@@ -1,5 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { PlanningCalendar } from '@/components/PlanningCalendar'
+import Header from '@/components/ui/Header'
+import Card from '@/components/ui/Card'
 
 export default async function PlanningPage() {
   const supabase = await createClient()
